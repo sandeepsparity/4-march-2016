@@ -1,0 +1,1240 @@
+<pall-header></pall-header>
+<div class="container slideInUp animated">
+    <div class="row">
+        <div class="graphContainer">
+            <div class="col-md-12 bgLightGray fixedTopNav">
+                <!--row start-->
+                <div class="row">
+                    <div class="col-sm-8">
+                        <!--<h4 class="marTop5">Worksheet</h4>--></div>
+                    <div class="col-sm-4 text-right">
+                        <span class="saveTextInput"><input type="text" class="form-control" ng-show="showConfig" ng-model="configName" /></span>
+                        <span href="javascript:void(0)" class="btn orng_btn" ng-click="saveConfiguration()">Save Changes</span>
+                        <a href="javascript:void(0)" class="btn green_btn" ng-click="backToInputScreen()">Back</a>
+                    </div>
+                </div>
+                <!--row ends-->
+            </div>
+            <div class="col-md-12">
+                <div class="row centerGraphContainer">
+                    <!-- Marketing Icons Section -->
+                    <!--col 1-->
+                    <div class="col-md-2 bgLightGray firstCol leftSideNav pad10">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h5 class="lftP">Products</h5>
+                            </div>
+                        </div>
+
+                        <!--row-->
+                        <div class="row" id="productFamilies">
+                            <div class="col-md-12 col-sm-2 pad10 marTop8" ng-repeat="product in productFamily track by $index">
+                                <button class="btn {{productColors[$index]}}" ng-click="toggleProduct($event,$index,product)" ng-class="{'activeBtn':product == activeProduct}">{{product}}</button>
+                            </div>
+                        </div>
+
+                        <!--configuration-->
+                        <div class=" col-md-12 col-sm-6 ">
+                            <h5>Configuration</h5>
+                            <div class="row">
+
+                                <div class="col-sm-6 pad10" ng-show="llCase">
+                                    <img class="img-responsive cursorPointer horizontalBtn text-left" src="images/blue.png" alt="" ng-click="horizontalFilter()" />
+                                </div>
+
+                                <div class="col-sm-6 pad10">
+                                    <img class="img-responsive cursorPointer verticalBtn text-right" src="images/org.png" alt="" ng-click="verticalFilter()" />
+                                </div>
+                            </div>
+                        </div>
+                        <!--chart type-->
+                        <div class=" col-md-12 col-sm-6 chartType ">
+                            <h5>Chart Type</h5>
+                            <div class="btm_mrg_5">
+                                <button class="btn btn0_radius btn-large btn-inverse btn_blk btn-light-green btn-block btn-primary " ng-click="showDiameter() " ng-show="!hideDiameter" ng-class="{'active': diameterOrLenght=='diameter'}">Diameter</button>
+                            </div>
+                            <div ng-show="llCase" class="btm_mrg_5 ">
+                                <button class="btn btn0_radius btn-large btn-inverse btn_blk btn-light-blue btn-block btn-primary btnActive" ng-click="showLength()" ng-show="!hideLength" ng-class="{'active': diameterOrLenght=='length'}">Length</button>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12 col-sm-12" style="text-align:center;    margin-top: 10px;">
+                            <img ng-show="!comparison" src="images/download-icon.png" style="width: 40px;cursor:pointer;" data-toggle="modal" data-target="#customerInformation">
+                            <img ng-show="comparison" src="images/download-icon.png" style="width: 40px;cursor:pointer;" data-toggle="modal" data-target="#customerInformationCompare">
+
+                            <span style="display:block;">Download PDF</span>
+                        </div>
+                    </div>
+                    <!--col 2-->
+                    <div class=" col-md-8 bgMidGray centerCol pad10 ">
+                        <!--row-->
+                        <div class="row ">
+                            <div class="col-sm-6 clr_wht heading_txt ">Housing {{diameterOrLenght == 'diameter' ? 'Diameter' :'Length' }}</div>
+                            <div class="col-sm-6 text-right ">
+                                <span class="clr_wht ">{{outputServiceResponseClone.length}} results showing {{skip + 1}} to {{limit}}</span>
+                                <div data-toggle="buttons " class="btn-group glyphicon-position ">
+                                    <span ng-click="prev() " ng-disabled="skip==0 ? true : false " class="btn btn-success btn-sm "><span class="glyphicon glyphicon-arrow-left "></span></span>
+                                    <span ng-click="next() " ng-disabled="!hasNext " class="btn btn-success btn-sm "><span class="glyphicon glyphicon-arrow-right "></span> </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--row-->
+                        <div class="row ">
+                            <div class="col-sm-12 ">
+                                <highchart id="container " config="highchartsNG " style="min-width: 310px; height: 240px; margin: 0 auto "></highchart>
+                            </div>
+                        </div>
+                        <!--allProducts row-->
+                        <div class="row topProductRow" id="allProductsRow" ng-show="!comparison ">
+                            <div class="gutter-rgt5" ng-class="{'col-sm-2' : currentProducts.length >= 5 ,'col-sm-3' : currentProducts.length == 4 ,'col-sm-4' : currentProducts.length == 3,'col-sm-6' : currentProducts.length <= 2}" ng-repeat="product in currentProducts  track by $index">
+                                <div class="col-xs-12 bx_pink {{productColors[$index]}}" ng-class="{'active_pink': product.prodid == selectedProductInfo.prodid}">
+                                    <div class="col-xs-3 no-gutter">
+                                        <div class="str_bx_pnk" ng-class="{'activeStar' : allFav.indexOf(product.prodid) != -1}">
+                                            <span class="txt_mdl fa fa-2x fa-star" ng-click="addFavourite(product)"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-9 no-gutter pull-right cursorPointer" ng-click="selectedProduct(product)">
+                                        <div class="rw1_pnk">{{product.CPN}}</div>
+                                        <div class="rw2_pnk">{{product.ProductName}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--products to compare-->
+                        <div class="topProductRow compareProductRow" ng-show="comparison">
+                            <div ng-repeat="product in productsToCompare" ng-class="productsToCompare.length > 2 ?'col-md-4 col-sm-4':'col-md-6 col-sm-6'" class="no-gutter">
+                                <div class="col-md-12 col-sm-12 gutter-rgt0 padleft0 comparisonProductTab" ng-class="($index > 0 && $index < products.length - 1) ? 'no-gutter-left' : ($index >0 ? '' :'') ">
+                                    <div class="col-xs-12 no-gutter {{product.color}}" ng-class="{'active_pink': product.prodid == selectedComparisonProduct.prodid }">
+                                        <div class="col-xs-3 no-gutter">
+                                            <div class="str_bx_pnk activeStar">
+                                                <span class="txt_mdl fa fa-2x fa-star"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-9 no-gutter pull-right cursorPointer" ng-click="selectComparedProduct(product)">
+                                            <div class="rw1_pnk">{{product.CPN}}</div>
+                                            <div class="rw2_pnk">{{product.ProductName}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--product information-->
+                        <div class="act_pnk_op" id="productInformation" ng-show="!comparison && llCase">
+                            <div class="scrollAuto {{productColors[products.indexOf(activeProduct)]}}">
+                                <div class="col-md-12">
+                                    <div class="row" id="product-family" style="display:none;">
+                                        <div class="col-sm-12">CPN : {{selectedProductInfo.CPN}}</div>
+                                        <div class="col-sm-12">Product Name : {{selectedProductInfo.ProductName}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 hd_lbl_bar ">Information Label</div>
+                                        <div class=" col-sm-6">
+                                            <div class="col-sm-12 no-gutter " ng-show="solveFor == 'Number of Coalescer'">
+                                                <div class="col-sm-7 no-gutter text-left ">No. of Coalescers Needed</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.Nc == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.Nc) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].Nc == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].Nc) | setDecimal :2}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter " ng-show="solveFor == 'Maximum Flowrate'">
+                                                <div class="col-sm-7 no-gutter text-left ">Flowrate</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.Qact == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.Qact) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].Qact == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].Qact) | setDecimal :2}} GPM</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter text-left ">Nominal Housing OD</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.oDh == '-999' ? 'Nan' : selectedProductInfo.Nominal.Output.oDh) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].oDh == '-999' ? 'NaN' :selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].oDh) | setDecimal:2}} {{outputUnits.length}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter text-left ">Actual Housing ID</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.dh == '-999' ? 'Nan' : selectedProductInfo.Nominal.Output.dh) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dh == '-999' ? 'NaN' :selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dh) | setDecimal:2}} {{outputUnits.length}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter text-left ">Minimum Possible Housing ID</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.dht == '-999' ? 'Nan' : selectedProductInfo.Nominal.Output.dht) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dht == '-999' ? 'NaN' :selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dht) | setDecimal:2}} {{outputUnits.length}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter">Nominal Nozzle Diameter</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.oDn == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.oDn) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].oDn == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].oDn) | setDecimal:2}} {{outputUnits.length}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter">Nozzle ID</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.dn == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.dn) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dn == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dn) | setDecimal:2}} {{outputUnits.length}}</div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-6 ">
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter">Nozzle DP</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{(dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.n == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.n) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].n == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].n)) | setDecimal:2}} {{outputUnits.pressure}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter">Tube sheet</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.ts == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.ts) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].ts == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].ts ) |setDecimal:2}} {{outputUnits.pressure}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter">Core DP</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.core == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.core) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].core == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].core ) |setDecimal:2}} {{outputUnits.pressure}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter">Media DP</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.dm == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.dm) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dm == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dm ) |setDecimal:2}} {{outputUnits.pressure}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter">Total DP</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.tot == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.tot) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].tot == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].tot ) |setDecimal:2}} {{outputUnits.pressure}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter " ng-show="selectedProductInfo.config == '1' && llCase">
+                                                <div class="col-sm-6 no-gutter">Setting Zone Length</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.Lhs == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.Lhs) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].Lhs == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].Lhs) | setDecimal:2}} {{outputUnits.length}}</div>
+                                            </div>
+                                            <!--<div class="col-sm-12 no-gutter" ng-show="selectedProductInfo.config == '2' && llCase">
+    <div class="col-sm-6 no-gutter">Water Rise Velocity</div>
+    <div class="col-sm-1 no-gutter"> | </div>
+    <div class="col-sm-5 no-gutter text-left inlineSpan"><span class="trim">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.VD == '-999' ? 'NaN' :selectedProductInfo.Nominal.Output.VD) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].VD == '-999' ? 'NaN': selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].VD) | setDecimal:2 }} {{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.VD > 1 ? 'inches' : 'inch') :(selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].VD > 1 ?'inches' :'inch')}}</span><span></span></div>
+</div>-->
+                                            <div class="col-sm-12 no-gutter " ng-show="false">
+                                                <div class="col-sm-6 no-gutter">Total Differential Pressure</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.tot == '-999' ? 'NaN' :selectedProductInfo.Nominal.Output.tot) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].tot == '-999' ? 'NaN': selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].tot) | setDecimal:2 }} {{graphInput.maxPressureUnits}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter">Coalesced Flowrate</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left inlineSpan"><span class="trim">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.QD == '-999' ? 'NaN' :selectedProductInfo.Nominal.Output.QD) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].QD == '-999' ? 'NaN' :selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].QD ) | setDecimal:2}} {{outputUnits.coalesced_flow}}</span><span></span></div>
+                                            </div>
+
+
+                                            <!--</div>-->
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-sm-12 hd_lbl_bar">Input Values For Solution</div>
+                                                <div class="col-sm-4 padright0">
+                                                    <div class="col-sm-12 no-gutter text-center ">
+                                                        <h4>System Conditions</h4>
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter" ng-show="solveFor == 'Number of Coalescer'">
+                                                        <div class="col-sm-7 no-gutter text-right">Flowrate</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Flowrate' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.QAsys) | setDecimal:2}} {{graphInput.flowRateUnit}}</div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter" ng-show="solveFor == 'Maximum Flowrate'">
+                                                        <div class="col-sm-7 no-gutter text-right">No. of coalescers</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Number of Coalescer' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.Nc) | setDecimal:2}} </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter ">
+                                                        <div class="col-sm-7 no-gutter text-right">Maximum Pressure</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-4 no-gutter text-left ">
+                                                            {{dataRangeValue == 'Max Pressure' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.Pmaxg) | setDecimal:2}} {{graphInput.maxPressureUnits}}</div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter ">
+                                                        <div class="col-sm-7 no-gutter text-right">Operating Pressure</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Operating Pressure' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.Popg) | setDecimal:2}} {{graphInput.maxPressureUnits}}</div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter ">
+                                                        <div class="col-sm-7 no-gutter text-right">Operating Temp</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Operating Temperature' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.Top) | setDecimal:2}} {{graphInput.temprature}}</div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter ">
+                                                        <div class="col-sm-7 no-gutter text-right">Nominal Nozzle Diameter</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Nozzle DP' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.dnu) | setDecimal:2}} {{graphInput.nozzleSizeUnit}}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 no-gutter">
+                                                    <div class="col-sm-12 no-gutter ">
+                                                        <div class="col-sm-12 no-gutter text-center ">
+                                                            <h4>Continuous Phase</h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter ">
+                                                        <div class="col-sm-7 no-gutter text-right">Name</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-4 no-gutter text-left ">{{CPNAME}}</div>
+
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter ">
+                                                        <div class="col-sm-7 no-gutter text-right">Density</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Continuous Density' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.rhoC) | setDecimal:2}} {{graphInput.liquidData.density.unit}}</div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter ">
+                                                        <div class="col-sm-7 no-gutter text-right">Viscosity</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Viscosity' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.muC) | setDecimal:2}} CP</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 padleft0">
+                                                    <div class="col-sm-12 no-gutter ">
+                                                        <div class="col-sm-12 no-gutter text-center ">
+                                                            <h4>Discontinuous Phase</h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter ">
+                                                        <div class="col-sm-6 no-gutter text-right">Name</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-5 no-gutter text-left ">{{DPNAME}}</div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter ">
+                                                        <div class="col-sm-6 no-gutter text-right">Density</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Discontinuous Density' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.rhoD) | setDecimal:2}} {{graphInput.liquidData.density.unit}}</div>
+
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter ">
+                                                        <div class="col-sm-6 no-gutter text-right">IFT(Interfacial Tension)</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'IFT' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.IFT) | setDecimal:2}} dyn/cm</div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter ">
+                                                        <div class="col-sm-6 no-gutter text-right">Concentration</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Concentration' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.MFD) | setDecimal:2}} {{graphInput.disLiquidData.concentration.unit}}</div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter " ng-show="graphInput.slsCheck">
+                                                        <div class="col-sm-12 no-gutter text-center"><b>Scale up from SLS Test Data</b></div>
+                                                    </div>
+
+                                                    <div class="col-sm-12 no-gutter " ng-show="graphInput.slsCheck">
+                                                        <div class="col-sm-6 no-gutter text-right">Product</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-5 no-gutter text-left ">{{graphInput.slsProduct}}</div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-gutter " ng-show="graphInput.slsCheck">
+                                                        <div class="col-sm-6 no-gutter text-right">Tested Flowrate</div>
+                                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                                        <div class="col-sm-5 no-gutter text-left ">{{graphInput.testedFlowrate}} {{graphInput.slsTestUnit}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!--<div class="col-sm-12 text-right ">
+                                        <button class="btn orng_btn clr_blk_o_btn" style="margin-top:10px; border:1px solid #ddd;" id="downloadPdfButton" data-toggle="modal" data-target="#customerInformation">Download</button>
+                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--product information for lg-->
+                        <div class="act_pnk_op" id="productInfo" ng-show="!comparison && lgCase">
+                            <div class="scrollAuto {{productColors[products.indexOf(activeProduct)]}}">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-sm-12 hd_lbl_bar ">Information Label</div>
+                                        <div class=" col-sm-6">
+                                            <div class="col-sm-12 no-gutter " ng-show="solveFor == 'Number of Coalescer'">
+                                                <div class="col-sm-6 no-gutter text-left ">No. of Coalescers Needed</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.Nc == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.Nc) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].Nc == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].Nc) | setDecimal :2}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter " ng-show="solveFor == 'Maximum Flowrate'">
+                                                <div class="col-sm-6 no-gutter text-left ">Flowrate</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.Qact == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.Qact) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].Qact == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].Qact) | setDecimal :2}} AM^3/hr</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-left ">Nominal Housing OD</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.oDh == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.oDh) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].oDh == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].oDh) | setDecimal:2}} {{outputUnits.length}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-left ">Actual Housing ID</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.dh == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.dh) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dh == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dh) | setDecimal:2}} {{outputUnits.length}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-left ">Minimum Possible Housing ID</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.dht == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.dht) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dht == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dht) | setDecimal:2}} {{outputUnits.length}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter">Nominal Nozzle Diameter</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.oDn == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.oDn) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].oDn == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].oDn) | setDecimal:2}} {{outputUnits.length}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter">Nozzle ID</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.dn == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.dn) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dn == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dn) | setDecimal:2}} {{outputUnits.length}}</div>
+                                            </div>
+
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter">Nozzle DP</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{(dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.n == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.n) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].n == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].n)) | setDecimal:2}} {{outputUnits.pressure}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter">Tube sheet DP</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.ts == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.ts) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].ts == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].ts) |setDecimal:2}} {{outputUnits.pressure}}</div>
+                                            </div>
+
+                                            <div class="col-sm-12 no-gutter">
+                                                <div class="col-sm-6 no-gutter">Actual Liquid Flux</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left inlineSpan"><span class="trim">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.lam_act == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.lam_act) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].lam_act == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].lam_act) | setDecimal:2 }} cc/(min ft2)</span></div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter ">Max Inlet Aerosol Mass Concentration</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.MFDmax == '-999' ? 'NaN' :selectedProductInfo.Nominal.Output.MFDmax ) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].MFDmax == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].MFDmax) | setDecimal:2 }} {{graphInput.disLiquidData.concentration.unit}}</div>
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="col-sm-6 ">
+
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter">Core DP</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.core == '-999' ? 'NaN' :selectedProductInfo.Nominal.Output.core) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].core == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].core) | setDecimal:2 }} {{outputUnits.pressure}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter ">Media Dry DP</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.dm == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.dm): (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dm == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].dm)| setDecimal:2 }} {{outputUnits.pressure}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter ">Media Sat. DP</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.sm == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.sm): (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].sm == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].sm) | setDecimal:2}} {{outputUnits.pressure}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter">Total Clean Dry DP</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.tcd == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.tcd) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].tcd == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].tcd) | setDecimal:2 }} {{outputUnits.pressure}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter">Total Clean Sat. DP</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.tcs == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.tcs) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].tcs == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].tcs) | setDecimal:2 }} {{outputUnits.pressure}}</div>
+                                            </div>
+
+                                            <div class="col-sm-12 no-gutter">
+                                                <div class="col-sm-7 no-gutter">Core Velocity</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left inlineSpan"><span class="trim">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.vx_act  == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.vx_act) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].vx_act  == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].vx_act) | setDecimal:2 }} {{outputUnits.velocity}}</span></div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter">Maximum Annular Velocity</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.vz_peak == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.vz_peak) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].vz_peak == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].vz_peak) | setDecimal:2}} {{outputUnits.velocity}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter">Actual Annular Velocity</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.vz_act == '-999' ? 'NaN' : selectedProductInfo.Nominal.Output.vz_act) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].vz_act == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].vz_act) | setDecimal:2}} {{outputUnits.velocity}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter">Maximum Media Velocity</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.vtarg == '-999' ? 'NaN' :selectedProductInfo.Nominal.Output.vtarg) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].vtarg == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].vtarg) | setDecimal:2}} {{outputUnits.media_velocity}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-7 no-gutter">Actual Media Velocity</div>
+                                                <div class="col-sm-1 no-gutter"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left inlineSpan"><span class="trim">{{dataRangeValue == 'Select Attribute' ? (selectedProductInfo.Nominal.Output.vm_act == '-999' ? 'NaN' :selectedProductInfo.Nominal.Output.vm_act) : (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].vm_act == '-999' ? 'NaN' : selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].vm_act) | setDecimal:2}} {{outputUnits.media_velocity}}</span><span></span></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 hd_lbl_bar ">Input Values For Solution</div>
+                                        <div class="col-sm-4 no-gutter">
+                                            <div class="col-sm-12 no-gutter text-center ">
+                                                <h4>System Conditions</h4>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter" ng-show="solveFor == 'Number of Coalescer'">
+                                                <div class="col-sm-6 no-gutter text-right">Flowrate</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Flowrate' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.QAsys) | setDecimal:2}} {{graphInput.flowRateUnit}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter" ng-show="solveFor == 'Maximum Flowrate'">
+                                                <div class="col-sm-6 no-gutter text-left">No. of coalescers</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Number of Coalescer' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.Nc) | setDecimal:2}} </div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">Maximum Pressure</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">
+                                                    {{dataRangeValue == 'Max Pressure' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.Pmaxg) | setDecimal:2}} {{graphInput.maxPressureUnits}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">Operating Pressure</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Operating Pressure' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.Popg) | setDecimal:2}} {{graphInput.maxPressureUnits}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">Operating Temp</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Operating Temperature' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.Top) | setDecimal:2}} {{graphInput.temprature}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">Nominal Nozzle Diameter</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Nozzle DP' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.dnu) | setDecimal:2}} {{graphInput.nozzleSizeUnit}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">Max Clean Dry DP</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Max Clean DP' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.dptmax) | setDecimal:2}} {{graphInput.maxSaturatedDPUnit}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">Max Clean Saturated DP</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{ selectedProductInfo.Nominal.Input.dpsmax | setDecimal:2}} {{graphInput.maxCleanDPUnit}}</div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-4 no-gutter">
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-12 no-gutter text-center ">
+                                                    <h4>Continuous Phase</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">Name</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{CPNAME}}</div>
+
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">Density</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Continuous Density' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.rhoC) | setDecimal:2}} {{graphInput.liquidData.density.unit}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">Viscosity</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{dataRangeValue == 'Viscosity' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.muC) | setDecimal:2}} CP</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">Specific Gravity</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-4 no-gutter text-left ">{{graphInput.liquidData.gravity}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 no-gutter">
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-12 no-gutter text-center ">
+                                                    <h4>Discontinuous Phase</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">Name</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{DPNAME}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">Density</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Discontinuous Density' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.rhoD) | setDecimal:2}} {{graphInput.liquidData.density.unit}}</div>
+
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">IFT(Interfacial Tension)</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'IFT' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.IFT) | setDecimal:2}} dyn/cm</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter ">
+                                                <div class="col-sm-6 no-gutter text-right">Concentration</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Concentration' ? (selectedProductInfo[outputVariable].OutVar[(productjsonkeymap[selectedProductInfo.prodid] ? productjsonkeymap[selectedProductInfo.prodid].jsonKey : jsonKey )].siInputVar) : (selectedProductInfo.Nominal.Input.MFD) | setDecimal:2}} {{graphInput.disLiquidData.concentration.unit}}</div>
+                                            </div>
+                                            <div class="col-sm-12 no-gutter " ng-show="graphInput.presapration">
+                                                <div class="col-sm-6 no-gutter text-right">Preseparation</div>
+                                                <div class="col-sm-1 no-gutter text-center"> | </div>
+                                                <div class="col-sm-5 no-gutter text-left ">{{graphInput.projected}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="col-sm-12 text-right "><span class="btn orng_btn clr_blk_o_btn" style="margin-top:10px; border:1px solid #ddd;" data-toggle="modal" data-target="#customerInformation">Download</span></div>-->
+                            </div>
+                        </div>
+                        <!--comparision information for ll-->
+                        <div class="row act_pnk_op scrollAuto" ng-class="{'active_pink': activeProduct ? true : false}" ng-show="comparison && llCase">
+                            <div class="{{product.color}} compare-padding" ng-class=" productsToCompare.length > 2 ? 'col-sm-4': 'col-sm-6' " ng-repeat="product in productsToCompare">
+                                <div class="col-sm-12 hd_lbl_bar">Information Label</div>
+                                <div class="col-sm-12 no-gutter " ng-show="solveFor == 'Number of Coalescer'">
+                                    <div class="col-sm-6 no-gutter text-left">No. of Coalescers Needed</div>
+                                    <div class="col-sm-1 no-gutter "> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.Nc =='-999' ? 'NaN' : product.Nominal.Output.Nc) : (product["compareValues"][outputVariable].Nc =='-999' ? 'NaN' : product["compareValues"][outputVariable].Nc) | setDecimal :2}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter " ng-show="solveFor == 'Maximum Flowrate'">
+                                    <div class="col-sm-6 no-gutter text-left ">Flowrate</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.Qact =='-999' ? 'NaN' : product.Nominal.Output.Qact) : (product["compareValues"][outputVariable].Qact =='-999' ? 'NaN' : product["compareValues"][outputVariable].Qact) | setDecimal :2}} GPM</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter text-left">Nominal Housing OD</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.oDh =='-999' ? 'NaN' : product.Nominal.Output.oDh) : (product["compareValues"][outputVariable].oDh =='-999' ? 'NaN' : product["compareValues"][outputVariable].oDh) | setDecimal:2}} {{outputUnits.length}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter text-left">Actual Housing ID</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.dh =='-999' ? 'NaN' : product.Nominal.Output.dh) : (product["compareValues"][outputVariable].dh =='-999' ? 'NaN' : product["compareValues"][outputVariable].dh) | setDecimal:2}} {{outputUnits.length}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter text-left">Minimum Possible Housing ID</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.dht =='-999' ? 'NaN' : product.Nominal.Output.dht) : (product["compareValues"][outputVariable].dht =='-999' ? 'NaN' : product["compareValues"][outputVariable].dht) | setDecimal:2}} {{outputUnits.length}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter  text-left">Nominal Nozzle Diameter</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.oDn =='-999' ? 'NaN' : product.Nominal.Output.oDn) : (product["compareValues"][outputVariable].oDn =='-999' ? 'NaN' : product["compareValues"][outputVariable].oDn) | setDecimal:2}} {{outputUnits.length}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter  text-left">Nozzle OD</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.dn =='-999' ? 'NaN' : product.Nominal.Output.dn) : (product["compareValues"][outputVariable].dn =='-999' ? 'NaN' : product["compareValues"][outputVariable].dn) | setDecimal:2}} {{outputUnits.length}}</div>
+                                </div>
+
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter text-left">Nozzle DP</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{(dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.n =='-999' ? 'NaN' : product.Nominal.Output.n ) : (product["compareValues"][outputVariable].n =='-999' ? 'NaN' : product["compareValues"][outputVariable].n)) | setDecimal:2}} {{outputUnits.pressure}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter text-left">Tube sheet DP</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.ts =='-999' ? 'NaN' : product.Nominal.Output.ts) : (product["compareValues"][outputVariable].ts =='-999' ? 'NaN' : product["compareValues"][outputVariable].ts) | setDecimal:2}} {{outputUnits.pressure}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter text-left">Core DP</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.core =='-999' ? 'NaN' : product.Nominal.Output.core) : (product["compareValues"][outputVariable].core =='-999' ? 'NaN' : product["compareValues"][outputVariable].core) |setDecimal:2}} {{outputUnits.pressure}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter text-left">Media DP</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.dm =='-999' ? 'NaN' : product.Nominal.Output.dm) : (product["compareValues"][outputVariable].dm =='-999' ? 'NaN' : product["compareValues"][outputVariable].dm) |setDecimal:2}} {{outputUnits.pressure}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter text-left">Total DP</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.tot =='-999' ? 'NaN' : product.Nominal.Output.tot) : (product["compareValues"][outputVariable].tot =='-999' ? 'NaN' : product["compareValues"][outputVariable].tot) |setDecimal:2}} {{outputUnits.pressure}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter " ng-show="selectedProductInfo.config == '1' && llCase">
+                                    <div class="col-sm-6 no-gutter text-left">Setting Zone</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.Lhs =='-999' ? 'NaN' : product.Nominal.Output.Lhs) : (product["compareValues"][outputVariable].Lhs =='-999' ? 'NaN' : product["compareValues"][outputVariable].Lhs) | setDecimal:2}} {{outputUnits.length}}</div>
+                                </div>
+
+                                <!--<div class="col-sm-12 no-gutter" ng-show="selectedProductInfo.config == '2' && llCase">
+    <div class="col-sm-6 no-gutter text-left">Water Rise Velocity</div>
+    <div class="col-sm-1 no-gutter"> | </div>
+    <div class="col-sm-5 no-gutter text-left">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.VD =='-999' ? 'NaN' : product.Nominal.Output.VD) : (product["compareValues"][outputVariable].VD =='-999' ? 'NaN' : product["compareValues"][outputVariable].VD) | setDecimal:2}} {{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.VD > 1 ? 'inches' : 'inch') :(product["compareValues"][outputVariable].VD > 1 ?'inches' :'inch')}}
+    </div>
+</div>-->
+
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter text-left">Coalesced Flow</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left inlineSpan"><span class="trim">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.QD =='-999' ? 'NaN' : product.Nominal.Output.QD) : (product["compareValues"][outputVariable].QD =='-999' ? 'NaN' : product["compareValues"][outputVariable].QD) | setDecimal}} {{outputUnits.coalesced_flow}}</span><span></span></div>
+                                </div>
+
+                                <div class="col-sm-12 hd_lbl_bar mtop">Input Values For Solution</div>
+                                <div class="col-sm-12 no-gutter">
+                                    <div class="col-sm-12 no-gutter text-center ">
+                                        <h4>System Conditions</h4>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter" ng-show="solveFor == 'Number of Coalescer'">
+                                        <div class="col-sm-6 no-gutter text-left">Flowrate</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Flowrate' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.QAsys) | setDecimal:2}} {{graphInput.flowRateUnit}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter" ng-show="solveFor == 'Maximum Flowrate'">
+                                        <div class="col-sm-6 no-gutter text-left">No. of Coalescer</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Number of Coalescer' ? (selectedProductInfo["compareValues"][outputVariable].siInputVar) :(selectedProductInfo.Nominal.Input.Nc) | setDecimal:2}} </div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Maximum Pressure</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">
+                                            {{dataRangeValue == 'Max Pressure' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.Pmaxg) | setDecimal:2}} {{graphInput.maxPressureUnits}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Operating Pressure</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Operating Pressure' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.Popg) | setDecimal:2}} {{graphInput.maxPressureUnits}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Operating Temp</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Operating Temperature' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.Top) | setDecimal:2}} {{graphInput.temprature}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Nominal Nozzle Diameter</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Nozzle DP' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.dnu) | setDecimal:2}} {{graphInput.nozzleSizeUnit}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 no-gutter">
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-12 no-gutter text-center ">
+                                            <h4>Continuous Phase</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Name</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{CPNAME}}</div>
+
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Density</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Continuous Density' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.rhoC) | setDecimal:2}} {{graphInput.liquidData.density.unit}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Viscosity</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Viscosity' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.muC) | setDecimal:2}} CP</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 no-gutter">
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-12 no-gutter text-center ">
+                                            <h4>Discontinuous Phase</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Name</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{DPNAME}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Density</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Discontinuous Density' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.rhoD) | setDecimal:2}} {{graphInput.liquidData.density.unit}}</div>
+
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">IFT(Interfacial Tension)</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'IFT' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.IFT) | setDecimal:2}} dyn/cm</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Concentration</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Concentration' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.MFD) | setDecimal:2}} {{graphInput.disLiquidData.concentration.unit}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter " ng-show="graphInput.slsCheck">
+                                        <div class="col-sm-12 no-gutter text-center"><b>Scale up from SLS Test Data</b></div>
+                                    </div>
+
+                                    <div class="col-sm-12 no-gutter " ng-show="graphInput.slsCheck">
+                                        <div class="col-sm-6 no-gutter text-right">Product</div>
+                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{graphInput.slsProduct}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter " ng-show="graphInput.slsCheck">
+                                        <div class="col-sm-6 no-gutter text-right">Tested Flowrate</div>
+                                        <div class="col-sm-1 text-center no-gutter"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{graphInput.testedFlowrate}} {{graphInput.slsTestUnit}}</div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                            <!--<div class="col-sm-12 text-right "><a class="btn orng_btn clr_blk_o_btn" style="margin-top:10px" href="javascript:void(0);" data-toggle="modal" data-target="#customerInformationCompare">Download</a></div>-->
+                        </div>
+                        <!--comparision information for lg-->
+                        <div class="row act_pnk_op scrollAuto" ng-class="{'active_pink': activeProduct ? true : false}" ng-show="comparison && lgCase">
+                            <div class="{{product.color}} compare-padding" ng-class=" productsToCompare.length > 2 ? 'col-sm-4': 'col-sm-6' " ng-repeat="product in productsToCompare">
+                                <div class="col-sm-12 hd_lbl_bar ">Information Label</div>
+                                <div class="col-sm-12 no-gutter " ng-show="solveFor == 'Number of Coalescer'">
+                                    <div class="col-sm-6 no-gutter text-left ">No. of Coalescers Needed</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.Nc =='-999' ? 'NaN' : product.Nominal.Output.Nc) : (product["compareValues"][outputVariable].Nc =='-999' ? 'NaN' : product["compareValues"][outputVariable].Nc) | setDecimal :2}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter " ng-show="solveFor == 'Maximum Flowrate'">
+                                    <div class="col-sm-6 no-gutter text-left ">Flowrate</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.Qact =='-999' ? 'NaN' : product.Nominal.Output.Qact) : (product["compareValues"][outputVariable].Qact =='-999' ? 'NaN' : product["compareValues"][outputVariable].Qact) | setDecimal :2}} AM^3/hr</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter text-left ">Nominal Housing OD</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.oDh =='-999' ? 'NaN' : product.Nominal.Output.oDh) : (product["compareValues"][outputVariable].oDh =='-999' ? 'NaN' : product["compareValues"][outputVariable].oDh) | setDecimal:2}} {{outputUnits.length}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter text-left ">Actual Housing ID</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.dh =='-999' ? 'NaN' : product.Nominal.Output.dh) : (product["compareValues"][outputVariable].dh =='-999' ? 'NaN' : product["compareValues"][outputVariable].dh) | setDecimal:2}} {{outputUnits.length}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter text-left ">Minimum Possible Housing ID</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.dht =='-999' ? 'NaN' : product.Nominal.Output.dht) : (product["compareValues"][outputVariable].dht =='-999' ? 'NaN' : product["compareValues"][outputVariable].dht) | setDecimal:2}} {{outputUnits.length}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter">Nominal Nozzle Diameter</div>
+                                    <div class="col-sm-1 no-gutter text-left"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.oDn =='-999' ? 'NaN' : product.Nominal.Output.oDn) : (product["compareValues"][outputVariable].oDn =='-999' ? 'NaN' : product["compareValues"][outputVariable].oDn) | setDecimal:2}} {{outputUnits.length}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter">Nozzle ID</div>
+                                    <div class="col-sm-1 no-gutter text-left"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.dn =='-999' ? 'NaN' : product.Nominal.Output.dn) : (product["compareValues"][outputVariable].dn =='-999' ? 'NaN' : product["compareValues"][outputVariable].dn) | setDecimal:2}} {{outputUnits.length}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter ">Media Sat. DP</div>
+                                    <div class="col-sm-1 "> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.sm =='-999' ? 'NaN' : product.Nominal.Output.sm) : (product["compareValues"][outputVariable].sm =='-999' ? 'NaN' : product["compareValues"][outputVariable].sm) | setDecimal:2}} {{outputUnits.pressure}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter">Nozzle DP</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{(dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.n =='-999' ? 'NaN' : product.Nominal.Output.n) : (product["compareValues"][outputVariable].n =='-999' ? 'NaN' : product["compareValues"][outputVariable].n)) | setDecimal:2}} {{outputUnits.pressure}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter">Tube sheet</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.ts =='-999' ? 'NaN' : product.Nominal.Output.ts) : (product["compareValues"][outputVariable].ts =='-999' ? 'NaN' :product["compareValues"][outputVariable].ts) |setDecimal:2}} {{outputUnits.pressure}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter ">Media Dry DP</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.dm =='-999' ? 'NaN' : product.Nominal.Output.dm) : (product["compareValues"][outputVariable].dm =='-999' ? 'NaN' : product["compareValues"][outputVariable].dm) | setDecimal:2 }} {{outputUnits.pressure}} </div>
+                                </div>
+                                <div class="col-sm-12 no-gutter">
+                                    <div class="col-sm-6 no-gutter">Actual Liquid Flux</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left inlineSpan"><span class="trim">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.lam_act =='-999' ? 'NaN' : product.Nominal.Output.lam_act) : (product["compareValues"][outputVariable].lam_act =='-999' ? 'NaN' : product["compareValues"][outputVariable].lam_act) | setDecimal:2 }} cc/(min ft^2)</span></div>
+                                </div>
+                                <div class="col-sm-12 no-gutter">
+                                    <div class="col-sm-6 no-gutter">Core Velocity</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left inlineSpan"><span class="trim">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.vx_act =='-999' ? 'NaN' : product.Nominal.Output.vx_act) : (product["compareValues"][outputVariable].vx_act =='-999' ? 'NaN' : product["compareValues"][outputVariable].vx_act) | setDecimal:2 }} {{outputUnits.velocity}}</span></div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter ">Max Inlet Aerosol Mass Concentration</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.MFDmax =='-999' ? 'NaN' : product.Nominal.Output.MFDmax) : (product["compareValues"][outputVariable].MFDmax =='-999' ? 'NaN' : product["compareValues"][outputVariable].MFDmax) | setDecimal:2 }} {{graphInput.disLiquidData.concentration.unit}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter">Total Clean Dry DP</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.tcd =='-999' ? 'NaN' :product.Nominal.Output.tcd) : (product["compareValues"][outputVariable].tcd =='-999' ? 'NaN' : product["compareValues"][outputVariable].tcd) | setDecimal:2 }} {{outputUnits.pressure}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter">Total Clean Sat. DP</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.tcs =='-999' ? 'NaN' :product.Nominal.Output.tcs) : (product["compareValues"][outputVariable].tcs =='-999' ? 'NaN' : product["compareValues"][outputVariable].tcs) | setDecimal:2 }} {{outputUnits.pressure}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter">Core DP</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.core =='-999' ? 'NaN' :product.Nominal.Output.core) : (product["compareValues"][outputVariable].core =='-999' ? 'NaN' :product["compareValues"][outputVariable].core) | setDecimal:2 }} {{outputUnits.pressure}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter">Maximum Annular Velocity</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.vz_peak =='-999' ? 'NaN' : product.Nominal.Output.vz_peak): (product["compareValues"][outputVariable].vz_peak =='-999' ? 'NaN' :product["compareValues"][outputVariable].vz_peak) | setDecimal:2}} {{outputUnits.velocity}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter">Actual Annular Velocity</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.vz_act =='-999' ? 'NaN' : product.Nominal.Output.vz_act) : (product["compareValues"][outputVariable].vz_act =='-999' ? 'NaN' : product["compareValues"][outputVariable].vz_act) | setDecimal:2}} {{outputUnits.velocity}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter">Maximum Media Velocity</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.vtarg =='-999' ? 'NaN' : product.Nominal.Output.vtarg) : (product["compareValues"][outputVariable].vtarg =='-999' ? 'NaN' : product["compareValues"][outputVariable].vtarg) | setDecimal:2}} {{outputUnits.media_velocity}}</div>
+                                </div>
+                                <div class="col-sm-12 no-gutter ">
+                                    <div class="col-sm-6 no-gutter">Actual Media Velocity</div>
+                                    <div class="col-sm-1 no-gutter"> | </div>
+                                    <div class="col-sm-5 no-gutter text-left inlineSpan"><span class="trim">{{dataRangeValue == 'Select Attribute' ? (product.Nominal.Output.vm_act  =='-999' ? 'NaN' : product.Nominal.Output.vm_act) : (product["compareValues"][outputVariable].vm_act  =='-999' ? 'NaN' :product["compareValues"][outputVariable].vm_act) | setDecimal:2}} {{outputUnits.media_velocity}}</span><span></span></div>
+                                </div>
+
+                                <div class="col-sm-12 hd_lbl_bar mtop">
+                                    Input Values For Solution
+
+                                </div>
+                                <div class="col-sm-12 no-gutter">
+                                    <div class="col-sm-12 no-gutter text-left ">
+                                        <h4>System Conditions</h4>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter" ng-show="solveFor == 'Number of Coalescer'">
+                                        <div class="col-sm-6 no-gutter text-left">Flowrate</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Flowrate' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.QAsys) | setDecimal:2}} {{graphInput.flowRateUnit}} </div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter" ng-show="solveFor == 'Maximum Flowrate'">
+                                        <div class="col-sm-6 no-gutter text-left">No. of Coalescer</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Number of Coalescer' ? (product["compareValues"][outputVariable].siInputVar) : (selectedProductInfo.Nominal.Input.Nc) | setDecimal:2}} {{graphInput.flowRateUnit}} </div>
+                                    </div>
+
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Maximum Pressure</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">
+                                            {{dataRangeValue == 'Max Pressure' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.Pmaxg) | setDecimal:2}} {{graphInput.maxPressureUnits}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Operating Pressure</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Operating Pressure' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.Popg) | setDecimal:2}} {{graphInput.maxPressureUnits}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Operating Temp</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Operating Temperature' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.Top) | setDecimal:2}} {{graphInput.temprature}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left"> zzle Diameter</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Nozzle DP' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.dnu) | setDecimal:2}} {{graphInput.nozzleSizeUnit}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Maximum Clean Dry DP</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Max Clean DP' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.dptmax) | setDecimal:2}} {{graphInput.maxSaturatedDPUnit}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Maximum Clean Saturated DP</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{product.Nominal.Input.dpsmax | setDecimal:2}} {{graphInput.maxCleanDPUnit}}</div>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-12 no-gutter">
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-12 no-gutter text-left ">
+                                            <h4>Continuous Phase</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Name</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{CPNAME}}</div>
+
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Density</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Continuous Density' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.rhoC) | setDecimal:2}} {{graphInput.liquidData.density.unit}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Viscosity</div>
+                                        <div class="col-sm-1 text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Viscosity' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.muC) | setDecimal:2}} CP</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Specific Gravity</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{graphInput.liquidData.gravity}} </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 no-gutter">
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-12 no-gutter text-left ">
+                                            <h4>Discontinuous Phase</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Name</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{DPNAME}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Density</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Discontinuous Density' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.rhoD) | setDecimal:2}} {{graphInput.disLiquidData.density.unit}}</div>
+
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">IFT(Interfacial Tension)</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'IFT' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.IFT) | setDecimal:2}} dyn/cm</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter ">
+                                        <div class="col-sm-6 no-gutter text-left">Concentration</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{dataRangeValue == 'Concentration' ? (product["compareValues"][outputVariable].siInputVar) : (product.Nominal.Input.MFD) | setDecimal:2}} {{graphInput.disLiquidData.concentration.unit}}</div>
+                                    </div>
+                                    <div class="col-sm-12 no-gutter " ng-show="graphInput.presapration">
+                                        <div class="col-sm-6 no-gutter text-left">Preseparation</div>
+                                        <div class="col-sm-1 no-gutter text-center"> | </div>
+                                        <div class="col-sm-5 no-gutter text-left ">{{graphInput.projected}}</div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <!--<div class="col-sm-12 text-right "><a class="btn orng_btn clr_blk_o_btn" style="margin-top:10px" href="javascript:void(0);" data-toggle="modal" data-target="#customerInformationCompare">Download</a></div>-->
+                        </div>
+                    </div>
+                    <!--col 3-->
+                    <div class="col-md-2 lastCol">
+                        <!--row-->
+                        <div class="row ">
+                            <div class="col-sm-12 ">
+                                <span class="sliderTitle">Data Range</span></div>
+                        </div>
+                        <!--row-->
+                        <div class="row ">
+                            <div class="col-sm-12 rangeBox">
+
+                                <select class="form-control selsize dataRangeSelectBox" ng-change="handleDataRangeValueChange()" ng-options="option.value as option.display for option in dataRangeOptions " ng-model="dataRangeValue"></select>
+
+                                <b>{{dataRangeValue}}</b>
+                                <div class="sliderOuter" ng-show="dataRangeValue === 'Select Attribute' ? false : true">
+                                    <div>
+                                        <!--<div id="horizontalSlider" class="rangeSlider" ui-slider min="{{-slideRange.keys}}" max="{{slideRange.keys}}" ng-model="inputRangeValue" value="5"></div>-->
+
+
+                                        <rzslider id="horizontalSlider" class="rangeSlider" rz-slider-model="inputRangeValue" rz-slider-options="{floor: slideRange.min, ceil: slideRange.max, disabled :( (selectedProductInfo.Nominal.isSLS == 'YES') || selectedProductInfo.disableSlider  ? true : false)}"></rzslider>
+
+                                    </div>
+                                    <div style="margin-top:15px;">
+                                        <span class="pull-left"><b>Min</b></span>
+                                        <span class="pull-right"><b>Max</b></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="dataRangeValue === 'Select Attribute' ? false : true">
+                                <button class="btn btn-default btnresize" ng-click="resetSlider(true)">Reset</button>
+                            </div>
+                        </div>
+                        <!--row-->
+                        <div class="row">
+                            <div class="lastRightBottom">
+                                <!--row-->
+                                <div class="scrollFav" id="lastRightBottom">
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-12 " ng-click="addToCompareList(fav)" ng-repeat="fav in favourites" style="margin-bottom:10px;">
+                                            <div class="col-xs-12 orange_bx_1 {{fav.color}}">
+                                                <div class="col-xs-3 star_bx" ng-class="{'activeStar':compareList.indexOf(fav.prodid) != -1 ? true: false}"><span class="txt_btm fa fa-2x fa-star "></span></div>
+                                                <div class="col-xs-9 no-gutter">
+                                                    <div class="green_strip ">{{fav.CPN}}</div>
+                                                    <div class="blue_strip">{{fav.ProductName}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--row-->
+                                <div class="row ">
+                                    <div class="col-sm-12 btm_mrg_5 ">
+                                        <button class="btn btn-large btn-primary grey-btn-clr-blk btn-block " ng-click="compareSelection(true)" ng-show="!comparison">Compare Selections</button>
+                                        <button class="btn btn-large btn-primary grey-btn-clr-blk btn-block " ng-click="resetSelection()" ng-show="comparison">Go Back</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="openModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        Modal content
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom:1px solid #e5e5e5;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Open</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <table class="table table-striped" style="margin-bottom: 0px;;">
+                    <thead>
+                        <tr>
+                            <th style="border-bottom: none;width:50%;">Config Name</th>
+                            <th style="border-bottom: none;width:50%;">Date</th>
+
+                        </tr>
+                    </thead>
+
+                </table>
+
+                <div style="height:300px;overflow: auto;">
+                    <table class="table table-striped">
+
+                        <tbody>
+                            <tr ng-repeat="list in openList" ng-class="{'active-row' : selectedFileId == list.id}" ng-click="makeFileSelected(list.id)">
+                                <td style="width:50%;">{{list.configname}}</td>
+                                <td style="width:50%;">{{list.modifiedDate}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="openRecentById   (selectedFileId)">Open</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="newModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        Modal content
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom:1px solid #e5e5e5;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">The entered data will be lost, would you like to continue?</h4>
+            </div>
+            <div class="modal-body">
+                <button type="button" class="btn btn-default" ng-click="refreshPage()">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!--
+<div id="logoutModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom:1px solid #e5e5e5;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Logout</h4>
+            </div>
+
+            <div class="modal-body">
+                <div>Are you sure ?</div>
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="logout()">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+            </div>
+        </div>
+
+    </div>
+</div>-->
+<div id="exceptionModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom:1px solid #e5e5e5;">
+                <button type="button" class="close" ng-click="closeException()" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{exceptionMsg}}</h4>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="customerInformation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Customer Information
+                </h4>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+
+                <form role="form">
+                    <div class="form-group">
+                        <label for="customerName">Customer Name</label>
+                        <input type="text" class="form-control" ng-model="customerName" placeholder="Customer Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="customerAddress">Customer Address</label>
+                        <input type="text" class="form-control" ng-model="customerAddress" placeholder="Customer Address" />
+                    </div>
+                </form>
+
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="downloadAsPdf()">
+                    Download
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="customerInformationCompare" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Customer Information
+                </h4>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+
+                <form role="form">
+                    <div class="form-group">
+                        <label for="customerName">Customer Name</label>
+                        <input type="text" class="form-control" ng-model="customerNameCompare" placeholder="Customer Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="customerAddress">Customer Address</label>
+                        <input type="text" class="form-control" ng-model="customerAddressCompare" placeholder="Customer Address" />
+                    </div>
+                </form>
+
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="downloadCompareAsPdf()">
+                    Download
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<modal visible="showModal">
+    <div>{{modalBody}}</div>
+</modal>

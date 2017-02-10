@@ -1,0 +1,718 @@
+<!-- Version 1.3 -->
+<div class="container ">
+    <pall-header></pall-header>
+    <div class="row rw_mr_0 bg_white homePage" id="idNumOfCoal">
+        <!--Operating Condition-- First Column Liquid -->
+        <form name="operationConditionsForm">
+            <div class="col-md-4" id="idCol1NOCoal">
+                <div class="panel_grey panel-default">
+                    <div class="panel_grey panel-default">
+                        <h5>System conditions</h5>
+                    </div>
+                    <div class="panel-heading panel-heading_green">
+                        <div class="form-group row h33">
+                            <label class="col-sm-4 form-control-label" for="inputEmail3">Solve for</label>
+                            <div class="col-sm-8">
+                                <span ng-show="operationEditable" class="positionDropDown">{{selectValue}}</span>
+                                <select ng-show="!operationEditable" ng-change="handleSelectTagValue()" class="form-control" ng-options="option for option in selectOptions" ng-model="selectValue"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body-white" id="panel-body-white">
+                        <div class="red_11 col-md-12 text-center center-block" id="pressueAlertMessage"></div>
+                        <!--<form name="operationConditionsForm">-->
+                        <!-- row first-->
+                        <div class="form-group h75" ng-show="selectValue == 'Number of Coalescer'" id="idDivMaxFlowRate">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Flowrate</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span ng-show="cpEditable">{{flowRate}}</span>
+                                    <input ng-show="!cpEditable" type="number" allow-numbers-only class="form-control" placeholder="Input text " name="flowRate" ng-model="flowRate" ng-required="true">
+                                </div>
+                                <div class="col-sm-5 padleft0">
+                                    <span ng-show="operationEditable" class="mtop">{{flowRateUnit}}</span>
+                                    <select ng-change="flowRateUnitChange()" ng-show="!operationEditable" class="form-control" ng-options="option.value as option.display for option in flowRateUnitOptions" ng-required="true" name="flowRateUnit" ng-model="flowRateUnit"></select>
+                                </div>
+                                <div ng-show="!cpEditable" class="col-sm-1 no-gutter ">
+                                    <span class="fa fa-2x fa-check txt_mid green_clr" ng-show="flowRate !== undefined && flowRate >= '0' && flowRateUnit !='u' "></span>
+                                    <span class="fa fa-2x fa-check txt_mid red_clr" ng-show="flowRate < '0' ||(operationConditionsForm.flowRateUnit.$touched && flowRateUnit == 'u') ||  (operationConditionsForm.flowRate.$error.pattern)  "></span>
+                                </div>
+                            </div>
+                            <!-- error message-->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="red_11" ng-show="flowRate < '0' || (operationConditionsForm.flowRate.$error.pattern)">Invalid Input</div>
+                                </div>
+                                <div class="col-sm-6 padleft0">
+                                    <div class="red_11" ng-show="operationConditionsForm.flowRateUnit.$touched    && flowRate !='0' && flowRateUnit == 'u'  "> *Select Units</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--flow rate or number of coalescar-->
+                        <div class="form-group h75" ng-show="selectValue == 'Maximum Flowrate'" id="idNOCoal">
+                            <!--<div class="alert alert-danger" ng-show="errorMessage">
+                        {{errorMessage}}
+                    </div>-->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Number of Coalescer</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span ng-show="cpEditable">{{number_of_col}}</span>
+                                    <input ng-show="!cpEditable" type="number" allow-numbers-only class="form-control" ng-model="number_of_col" id="Text3" placeholder="Input text" name="number_of_col" ng-required="true" ng-pattern="/^[0-9]{1,10}$/">
+                                </div>
+                                <div class="col-sm-5 padleft0">
+                                    <span ng-show="operationEditable" class="mtop">{{coalesUnits}}</span>
+                                    <select ng-change="flowRateUnitChange()" ng-show="!operationEditable" class="form-control" ng-options="option.value as option.display for option in coalesUnitsOptions" name="coalesUnits" ng-required="true" ng-model="coalesUnits"></select>
+
+                                </div>
+                                <div ng-show="!cpEditable" class="col-sm-1 no-gutter">
+                                    <span class="fa fa-2x fa-check txt_mid green_clr" ng-show="number_of_col && number_of_col > '0' && coalesUnits != 'u'"></span>
+                                    <span class="fa fa-2x fa-check txt_mid red_clr" ng-show=" (operationConditionsForm.number_of_col.$touched && !number_of_col) || number_of_col <= '0' || ( operationConditionsForm.coalesUnits.$touched && coalesUnits == 'u') ||  (operationConditionsForm.number_of_col.$error.pattern)"></span>
+                                </div>
+                            </div>
+                            <!-- error message-->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="red_11" ng-show="(operationConditionsForm.number_of_col.$error.pattern) || (operationConditionsForm.number_of_col.$touched && !number_of_col )|| number_of_col < '0'">Invalid Input</div>
+                                </div>
+                                <div class="col-sm-6 padleft0">
+                                    <div class="red_11" ng-show=" operationConditionsForm.coalesUnits.$touched && number_of_col != '0' && coalesUnits == 'u'"> *Select Units</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- row two -->
+                        <div class="form-group h75">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Maximum Pressure</h4>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <span ng-show="cpEditable">{{maximum_pressure}}</span>
+                                    <input ng-show="!cpEditable" type="number" allow-numbers-only class="form-control" ng-model="maximum_pressure" ng-required="true" name="maximum_pressure" placeholder="Input text">
+                                </div>
+                                <div class="col-sm-5 padleft0">
+                                    <span ng-show="operationEditable " class="mtop">{{maxPressureUnits}}</span>
+                                    <select ng-show="!operationEditable " class="form-control " ng-options="option.value as option.display for option in maxPressureOptions " ng-model="maxPressureUnits" ng-change="maximumPressureChange()" name="maxPressureUnits" ng-required="true"></select>
+                                </div>
+                                <div ng-show="!cpEditable" class="col-sm-1 no-gutter">
+                                    <span class="fa fa-2x fa-check txt_mid green_clr " ng-show="maximum_pressure && maximum_pressure > '0' && maxPressureUnits !='u' "></span>
+                                    <span class="fa fa-2x fa-check txt_mid red_clr " ng-show=" ( maximum_pressure <= '0') || (operationConditionsForm.maximum_pressure.$error.pattern) || ( operationConditionsForm.maxPressureUnits.$touched && maxPressureUnits=='u' ) "></span>
+                                </div>
+                            </div>
+
+                            <!-- error message-->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="red_11" ng-show="maximum_pressure <= '0' || (operationConditionsForm.maximum_pressure.$error.pattern)">Invalid Input</div>
+                                </div>
+                                <div class="col-sm-6 padleft0">
+                                    <div class="red_11" ng-show="operationConditionsForm.maxPressureUnits.$touched   && maxPressureUnits=='u' "> *Select Units</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- row three -->
+                        <div class="form-group h75">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Operating Pressure</h4>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <span ng-show="cpEditable">{{operating_pressure}}</span>
+                                    <input ng-show="!cpEditable" type="number" allow-numbers-only class="form-control" name="operating_pressure" ng-required="true" ng-model="operating_pressure " placeholder="Input text">
+                                </div>
+                                <div class="col-sm-5 padleft0">
+                                    <span ng-show="operationEditable" class="mtop">{{opPressureUnits}}</span>
+                                    <select ng-show="!operationEditable " class="form-control " ng-options="option.value as option.display for option in maxPressureOptions" name="opPressureUnits" ng-required="true" ng-model="opPressureUnits "></select>
+                                </div>
+                                <div ng-show="!cpEditable" class="col-sm-1 no-gutter">
+                                    <span class="fa fa-2x fa-check txt_mid green_clr " ng-show="operating_pressure && operating_pressure > '0' && opPressureUnits !='u' && opPressureUnits==maxPressureUnits && operating_pressure <= maximum_pressure "></span>
+                                    <span class="fa fa-2x fa-check txt_mid red_clr " ng-show="(operationConditionsForm.operating_pressure.$touched && operating_pressure < '0') || ( operationConditionsForm.opPressureUnits.$touched && opPressureUnits=='u' ) || (operationConditionsForm.opPressureUnits.$touched && operationConditionsForm.maxPressureUnits.$touched && opPressureUnits !=maxPressureUnits) ||  (operating_pressure && operating_pressure > maximum_pressure ) ||(operationConditionsForm.operating_pressure.$error.pattern)"></span>
+                                </div>
+                            </div>
+
+                            <!-- error message-->
+                            <div class="row">
+                                <div class="col-sm-12" ng-show="opPressureUnits !='u' && opPressureUnits !=maxPressureUnits ">
+                                    <div class="red_11 "> *Operating Pressure Unit must be same as Maximum Pressure Unit</div>
+                                </div>
+                                <div class="col-sm-12" ng-show="lgCase && (((opPressureUnits =='Barg' || opPressureUnits =='mBarg') && operating_pressure > 40) || (opPressureUnits =='PSIG'  && operating_pressure > 580))  ">
+                                    <div class="red_11 "> *There is a potential for retrograde condensation. Please contact your local expert to run PPDS II simulations</div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="red_11" ng-show="operating_pressure > maximum_pressure && opPressureUnits !='u' && opPressureUnits == maxPressureUnits "> Operating Pressure cannot be greater than Max Pressure</div>
+                                    <div class="red_11" ng-show="operating_pressure=='0' || (operationConditionsForm.operating_pressure.$error.pattern)"> Invalid Input</div>
+                                </div>
+                                <div class="col-sm-6 padleft0">
+                                    <div class="red_11" ng-show="operationConditionsForm.opPressureUnits.$touched && operating_pressure !='0' && opPressureUnits == 'u' "> *Select Units</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- row Fourth -->
+                        <div class="form-group h75">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Operating Temperature</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span ng-show="cpEditable">{{temp_operating}}</span>
+                                    <input ng-show="!cpEditable" type="number" allow-numbers-only class="form-control" ng-model="temp_operating" placeholder="Input text" name="temp_operating" ng-required="true">
+                                </div>
+                                <div class="col-sm-5 padleft0">
+                                    <span ng-show="operationEditable" class="mtop">{{temprature}}</span>
+                                    <select ng-show="!operationEditable" class="form-control" ng-options="option.value as option.display for option in tempratureOptions" ng-required="true" name="temperature" ng-model="temprature"></select>
+                                </div>
+                                <div ng-show="!cpEditable" class="col-sm-1 no-gutter">
+
+
+                                    <!--<span ng-if="gasValue == 'Water' || discontGasValue == 'Water'">-->
+                                    <!--<span class="fa fa-2x fa-check txt_mid red_clr" ng-if="llCase && ((temp_operating< '32' && temprature == 'Fahrenheit') || (temp_operating < '0' && temprature == 'Celsius'))"></span>-->
+                                    <!--<span class="fa fa-2x fa-check txt_mid green_clr" ng-if="llCase && ((temp_operating >= '32' && temprature == 'Fahrenheit') || (temp_operating >= '0' && temprature == 'Celsius'))"></span>-->
+                                    <!--</span>-->
+
+                                    <!--<span ng-if="(gasValue != 'Water' && discontGasValue == undefined) || (discontGasValue && discontGasValue != 'Water')">-->
+                                    <!--<span class="fa fa-2x fa-check txt_mid green_clr" ng-if="llCase && ((temp_operating<= '160' && temprature == 'Fahrenheit') || (temp_operating <= '71' && temprature == 'Celsius'))"></span>-->
+                                    <!--<span class="fa fa-2x fa-check txt_mid red_clr" ng-if="llCase && ((temp_operating > '160' && temprature == 'Fahrenheit') || (temp_operating > '71' && temprature == 'Celsius'))"></span>-->
+                                    <!--<span class="fa fa-2x fa-check txt_mid green_clr" ng-if="((lgCase && temp_operating >= '-40' && temprature != undefined)) "></span>-->
+                                    <!--<span class="fa fa-2x fa-check txt_mid red_clr" ng-if="((lgCase && temp_operating < '-40' && temprature != undefined)) "></span>-->
+                                    <!--</span>-->
+
+
+                                    <span ng-if="gasValue == 'Water' || discontGasValue == 'Water' ">
+                                        <span class="fa fa-2x fa-check txt_mid red_clr" ng-if="((temp_operating< '32' && temprature == 'Fahrenheit') || (temp_operating < '0' && temprature == 'Celsius'))"></span>
+                                    <span class="fa fa-2x fa-check txt_mid green_clr" ng-if="((temp_operating >= '32' && temprature == 'Fahrenheit') || (temp_operating >= '0' && temprature == 'Celsius'))"></span>
+                                    </span>
+
+
+                                    <span ng-if="(gasValue != 'Water' && discontGasValue == undefined) ">
+                                        <span class="fa fa-2x fa-check txt_mid green_clr" ng-if="llCase && ((temp_operating<= '160' && temprature == 'Fahrenheit') || (temp_operating <= '71' && temprature == 'Celsius'))"></span>
+                                    <span class="fa fa-2x fa-check txt_mid green_clr" ng-if="llCase && ((temp_operating > '160' && temprature == 'Fahrenheit') || (temp_operating > '71' && temprature == 'Celsius'))"></span>
+
+                                    <span class="fa fa-2x fa-check txt_mid green_clr" ng-if="((lgCase && temp_operating >= '-40' && temprature != 'u')) "></span>
+                                    <span class="fa fa-2x fa-check txt_mid red_clr" ng-if="((lgCase && temp_operating < '-40' && temprature != 'u')) "></span>
+                                    </span>
+
+                                    <span ng-if="(gasValue != 'Water' && discontGasValue != 'Water' && gasValue != undefined && discontGasValue != undefined) ">
+                                        <span class="fa fa-2x fa-check txt_mid green_clr" ng-if="llCase && ((temp_operating<= '160' && temprature == 'Fahrenheit') || (temp_operating <= '71' && temprature == 'Celsius'))"></span>
+                                    <span class="fa fa-2x fa-check txt_mid green_clr" ng-if="llCase && ((temp_operating > '160' && temprature == 'Fahrenheit') || (temp_operating > '71' && temprature == 'Celsius'))"></span>
+
+                                    <span class="fa fa-2x fa-check txt_mid green_clr" ng-if="((lgCase && temp_operating >= '-40' && temprature != 'u')) "></span>
+                                    <span class="fa fa-2x fa-check txt_mid red_clr" ng-if="((lgCase && temp_operating < '-40' && temprature != 'u')) "></span>
+                                    </span>
+
+
+
+                                </div>
+                            </div>
+
+                            <!-- error message-->
+                            <div class="row ">
+                                <div class="col-sm-6 ">
+                                    <div class="red_11 " ng-if="((lgCase && temp_operating < '-40' && temprature != 'u')) ">Cannot continue, temperature too low for medium</div>
+                                    <div class="red_11 " ng-if="llCase && ((temp_operating> '160' && temprature == 'Fahrenheit') || (temp_operating > '71' && temprature == 'Celsius'))">Above 160 F / 71 C a high temp medium must be used</div>
+
+                                    <div class="red_11" ng-if="((temp_operating < '0' && temprature == 'Celsius') || (temp_operating < '32' && temprature == 'Fahrenheit')) && (gasValue == 'Water' || discontGasValue == 'Water')">Cannot continue, temperature of water cannot be below freezing</div>
+
+                                </div>
+                                <div class="col-sm-6 padleft0">
+                                    <div class="red_11" ng-show="operationConditionsForm.temperature.$touched &&  temp_operating != '0' && temprature == 'u'"> *Select Units</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- row Fifth -->
+                        <div class="form-group h75">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Nominal Nozzle Diameter</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="nozzleSize" name="nozzleSize" placeholder="Input text" />
+                                </div>
+                                <div class="col-sm-5 padleft0">
+                                    <span ng-show="operationEditable" class="mtop">{{nozzleSizeUnit}}</span>
+                                    <select ng-show="!operationEditable" class="form-control" ng-options="option.value as option.display for option in nozzleSizeOptions" ng-required="true" name="nozzleSizeUnit" ng-model="nozzleSizeUnit"></select>
+                                </div>
+                                <div ng-show="!cpEditable" class="col-sm-1 no-gutter">
+                                    <span class="fa fa-2x fa-check txt_mid green_clr " ng-show="nozzleSize && nozzleSize > '0' && nozzleSizeUnit !='u' "></span>
+                                    <span class="fa fa-2x fa-check txt_mid red_clr " ng-show=" ( nozzleSize <= '0') ||    ( operationConditionsForm.nozzleSizeUnit.$touched && nozzleSizeUnit=='u' ) "></span>
+                                </div>
+                            </div>
+                            <!-- error message-->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="red_11" ng-show="flowRate < '0' || (operationConditionsForm.nozzleSize.$error.pattern)">Invalid Input</div>
+                                </div>
+                                <div class="col-sm-6 padleft0">
+                                    <div class="red_11" ng-show="operationConditionsForm.nozzleSizeUnit.$touched    && nozzleSize !='0' && nozzleSizeUnit == 'u'  "> *Select Units</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- row sixth -->
+                        <div class="form-group h75" ng-show="lgCase">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Maximum Clean Dry DP</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="maxCleanDP" name="maxCleanDP" placeholder="Input text" />
+                                </div>
+                                <div class="col-sm-5 padleft0">
+                                    <span ng-show="operationEditable" class="mtop">{{maxCleanDPUnit}}</span>
+                                    <select ng-show="!operationEditable" class="form-control" ng-options="option.value as option.display for option in dpPressureOptions" ng-required="true" name="maxCleanDPUnit" ng-model="maxCleanDPUnit"></select>
+                                </div>
+                                <div ng-show="!cpEditable" class="col-sm-1 no-gutter">
+                                    <span class="fa fa-2x fa-check txt_mid green_clr " ng-show="maxCleanDP && maxCleanDP > '0' && maxCleanDPUnit !='u' "></span>
+                                    <span class="fa fa-2x fa-check txt_mid red_clr " ng-show=" ( maxCleanDP <= '0') ||    ( operationConditionsForm.nozzleSizeUnit.$touched && nozzleSizeUnit=='u' ) "></span>
+                                </div>
+                            </div>
+                            <!-- error message-->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="red_11" ng-show="flowRate < '0' || (operationConditionsForm.nozzleSize.$error.pattern)">Invalid Input</div>
+                                </div>
+                                <div class="col-sm-6 padleft0">
+                                    <div class="red_11" ng-show="operationConditionsForm.nozzleSizeUnit.$touched    && nozzleSize !='0' && nozzleSizeUnit == 'u'  "> *Select Units</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- row seventh -->
+                        <div class="form-group h75" ng-show="lgCase">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Maximum Clean Saturated DP</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="maxSaturatedDP" name="maxSaturatedDP" placeholder="Input text" />
+                                </div>
+                                <div class="col-sm-5 padleft0">
+                                    <span ng-show="operationEditable" class="mtop">{{maxSaturatedDPUnit}}</span>
+                                    <select ng-show="!operationEditable" class="form-control" ng-options="option.value as option.display for option in dpPressureOptions" ng-required="true" name="maxSaturatedDPUnit" ng-model="maxSaturatedDPUnit"></select>
+                                </div>
+                                <div ng-show="!cpEditable" class="col-sm-1 no-gutter">
+                                    <span class="fa fa-2x fa-check txt_mid green_clr " ng-show="maxSaturatedDP && maxSaturatedDP > '0' && maxSaturatedDPUnit !='u' "></span>
+                                    <span class="fa fa-2x fa-check txt_mid red_clr " ng-show=" ( maxSaturatedDP <= '0') ||    ( operationConditionsForm.maxSaturatedDPUnit.$touched && maxSaturatedDPUnit=='u' ) "></span>
+                                </div>
+                            </div>
+                            <!-- error message-->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="red_11" ng-show="flowRate < '0' || (operationConditionsForm.maxSaturatedDP.$error.pattern)">Invalid Input</div>
+                                </div>
+                                <div class="col-sm-6 padleft0">
+                                    <div class="red_11" ng-show="operationConditionsForm.maxSaturatedDPUnit.$touched    && maxSaturatedDP !='0' && maxSaturatedDPUnit == 'u'  "> *Select Units</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-danger" ng-show="errorMessage">
+                            {{errorMessage}}
+                        </div>
+                        <!--</form>-->
+                    </div>
+                    <!--Form End-->
+
+                    <div class="panel-body h65">
+                        <div class="form-group row">
+                            <!--<div class="col-sm-8">
+                            <div class="checkbox label-chekbx" id="idFluoropolymer" ng-show="selectValue == 'Max Flow Rate' ? (coalesUnits == 'LL' ? true : false) : (liquidFlowRateUnits.indexOf(flowRateUnit) == -1 ? false : true)">
+                                <label>
+                                    <input type="checkbox"> Fluoropolymer required
+                                </label>
+                            </div>
+                        </div>-->
+                            <div class="col-sm-4 pull-right">
+                                <span ng-show="!operationEditable" class="btn pull-right btn-primary" ng-click="validateNext()" style="min-width:100%;">Next</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--Continuous Phase-- Second Column Liquid -->
+            <div class="col-md-4" id="idCol2MFRate" style="display:none">
+                <div class="panel_grey panel-default">
+                    <div class="panel_grey panel-default">
+                        <h5>Continuous Phase</h5>
+                    </div>
+                    <div class="panel-heading panel-heading_green">
+                        <div class="form-group row h33">
+                            <label class="col-sm-2 form-control-label" for="inputEmail3">{{llCase ? 'Liquid' : 'Gas'}}</label>
+
+                            <div class="col-sm-6">
+                                <span class="positionDropDown pull-left" ng-show="hideButtons">{{gasValue}}</span>
+                                <select ng-change="gasValueChange()" ng-class="{'smallSelect' :lgCase}" ng-show="!hideButtons" ng-disabled="calculateClicked" class="form-control " ng-options="option as option for option in gasOptions" ng-model="gasValue"></select>
+
+                                <spn ng-show="lgCase" class="mySg" ng-class="{'sgGap' :showCalculate}">SG</spn>
+                                <span class="positionDropDown" ng-show="sgEditable && lgCase" ng-class="{'spanGap' :sgEditable}">{{liquidData.gravity}}</span>
+                                <input ng-show="!sgEditable && lgCase" ng-class="{'smallSelect' :lgCase,'smallSelectSgBox' :lgCase}" type="text" class="form-control smallSelect" ng-model="liquidData.gravity">
+                            </div>
+                            <div class="col-sm-4 text-right padleft0" style="padding-right:10px;">
+
+                                <span class="btn btn-default pull-right btn_mrgins 
+modifyBtn" ng-show="showCalculate && lgCase" ng-click="calculateGasProps()">Calculate</span>
+                                <span class="btn btn-default pull-right btn_mrgins 
+modifyBtn" ng-click="changeSG()" ng-show="showChangeSG  && lgCase" ng-class="{'smallModify' :lgCase}" style="margin-left:2px;">Change SG</span>
+                                <span class="btn btn-default pull-right btn_mrgins 
+modifyBtn" ng-show="((!cpEditable &&  gasValue != 'Generic' ) && (gasValue != 'Generic' && edittable) && !hideButtons)" ng-click="modifyGasOptions()" ng-class="{'smallModify' :lgCase}">Modify</span>
+                                <span class="fa fa-2x fa-check tickSign" ng-show="!edittable" ng-click="save();"></span>
+                                <span class="fa fa-2x fa-times red_clr crossSign" ng-show="!edittable" ng-click="cancel();"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body-white continuous-phase">
+
+                        <!--row first-->
+                        <div class="form-group h75">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Name</h4>
+                                </div>
+                                <div class="col-sm-12">
+                                    <span ng-show="cpEditable || (edittable && gasValue != 'Generic')" class="mtop">{{liquidData.name}}</span>
+                                    <input ng-show="!cpEditable && (!edittable || gasValue == 'Generic')" type="text" class="form-control" ng-model="liquidData.name">
+                                </div>
+                                <div class="col-sm-12" ng-show="continousPhaseErrorMsg.name && (liquidData.name == undefined || liquidData.name.length == '0')">
+                                    <span class="red_11">Please Fill Name</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--row second-->
+                        <div class="form-group h75">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Density</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span ng-show="(cpEditable || (edittable && gasValue != 'Generic')) && !density999" class="mtop">{{liquidData.density.value}}</span>
+                                    <input ng-show="(!cpEditable && (!edittable || gasValue == 'Generic')) || density999" type="number" allow-numbers-only class="form-control" ng-model="liquidData.density.value">
+                                </div>
+                                <div class="col-sm-5 padleft0">
+                                    <span ng-show="cpEditable ||  (edittable && gasValue != 'Generic') " class="mtop">{{liquidData.density.unit}}</span>
+                                    <select ng-show="!cpEditable  && (!edittable || gasValue == 'Generic')" class="form-control" ng-options="option.value as option.display for option in densityUnitsOptions" ng-change="contDensityUnitChange()" ng-model="liquidData.density.unit"></select>
+                                </div>
+                                <div class="col-sm-6" ng-show="isLiquid && disLiquidData && disLiquidData.density.value && disLiquidData.density.value !== undefined && disLiquidData.density.value < liquidData.density.value && showCalc">
+                                    <div class="red_11">The sump is located on top of the horizontal vessel.</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="red_11" ng-show="liquidData.density.value != undefined && liquidData.density.value <= 0">Invalid Input</span>
+                                    <span class="red_11" ng-show="continousPhaseErrorMsg.density.value && liquidData.density.value == undefined">Please Fill Density</span>
+                                </div>
+                                <div class="col-sm-6 padleft0">
+                                    <span class="red_11" ng-show="continousPhaseErrorMsg.density.unit && !contdensityUnitFilled">Please Fill Density Unit</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--row third-->
+                        <div class="form-group h75">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Viscosity</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span ng-show="(cpEditable || (edittable && gasValue != 'Generic')) && !viscosity999 " class="mtop">{{liquidData.viscosity}}</span>
+                                    <input ng-show="(!cpEditable  && (!edittable || gasValue == 'Generic') ) || viscosity999" type="number" allow-numbers-only name="conViscosity" class="form-control" ng-model="liquidData.viscosity">
+                                </div>
+                                <div class="col-sm-3 text-uppercase padTop7">cp</div>
+                                <div class="col-sm-12" ng-show="liquidData.viscosity >= 6 && gasValue == 'Generic' ">      <!--Changed viscosity to greater than equal to 6 from 10 on 02/08/2017, change requested by Tom wines on 02/07/2017-->
+                                    <div class="red_11_1">SLS pilot testing is required</div>
+                                </div>
+                                <div class="col-sm-12" ng-show="continousPhaseErrorMsg.viscosity && liquidData.viscosity == undefined">
+                                    <span class="red_11_1">Please Fill Viscosity</span> <!--changed css class name to red_11_1 from red_11 on n 02/08/2017, change requested by Tom wines on 02/07/2017-->
+                                </div>
+                                <div class="col-sm-12" ng-show="continousPhaseErrorMsg.negativeViscosity">
+                                    <span class="red_11_1">Please change the value to a positive number</span> <!--changed css class name to red_11_1 from red_11 on n 02/08/2017, change requested by Tom wines on 02/07/2017-->
+                                </div>
+                                <!--<div class="col-sm-12" ng-show="operationConditionsForm.conViscosity.$error.pattern">
+    <span class="red_11">Invalid Input</span>
+</div>-->
+                            </div>
+                        </div>
+
+                        <!--row fourth-->
+                        <!--<div class="form-group h75" ng-show="lgCase">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Specific Gravity</h4>
+        </div>
+        <div class="col-sm-6">
+            <span ng-show="cpEditable || (edittable && gasValue != 'Generic')">{{liquidData.gravity}}</span>
+            <input ng-show="!cpEditable && (!edittable || gasValue == 'Generic')" type="number" allow-numbers-only class="form-control" ng-model="liquidData.gravity">
+        </div>
+        <div class="col-sm-12" ng-show="continousPhaseErrorMsg.gravity && liquidData.gravity == undefined">
+            <span class="red_11">Please Fill Specific Gravity</span>
+        </div>
+    </div>
+</div>-->
+
+                    </div>
+                    <div class="panel-body h65">
+                        <div class="form-group row">
+                            <div class="col-sm-7 text-left">
+                                <span ng-disabled="disableContinuousButtons" ng-show="!hideContinuousButtons" class="btn btn-primary" ng-click="showOperationCondition()">Back</span>
+                            </div>
+                            <div class="col-sm-5 text-right">
+                                <span ng-disabled="disableContinuousButtons" ng-show="!hideContinuousButtons" class="btn btn-primary" ng-click="showDiscontinuousPhase()">Next</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Discontinous Phase-- Third Column Liquid -->
+            <div class="col-md-4" id="idCol3NOCoal" style="display:none">
+                <div class="panel_grey panel-default">
+                    <div class="panel_grey panel-default">
+                        <h5>Discontinuous Phase</h5>
+                    </div>
+                    <div class="panel-heading panel-heading_green">
+                        <div class="form-group row h33">
+                            <label class="col-sm-2 form-control-label" for="inputEmail3">Liquid</label>
+
+                            <div class="col-sm-6">
+                                <span class="positionDropDown" ng-show="hideDisButtons">{{discontGasValue}}</span>
+                                <select class="form-control" ng-change="disGasValueChange()" ng-show="!hideDisButtons" ng-options="option as option for option in discontGasOptions" ng-model="discontGasValue"></select>
+                            </div>
+                            <div class="col-sm-4 text-right">
+                                <span class="btn btn-default pull-right btn_mrgins modifyBtn" ng-show="(!cpEditable &&  discontGasValue != 'Generic' ) && (discontGasValue != 'Generic' && disEdittable)" ng-click="modifyDisGasOptions()">Modify</span>
+                                <span class="fa fa-2x fa-check tickSign" ng-show="!disEdittable" ng-click="save('dis');"></span>
+                                <span class="fa fa-2x fa-times crossSign" ng-show="!disEdittable" ng-click="cancel('dis');"></span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="panel-body-white pd_btm_0 discontinuous-phase">
+                        <!--row first-->
+                        <div class="form-group h75">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Name</h4>
+                                </div>
+                                <div class="col-sm-12">
+                                    <span class="mtop" ng-show="cpEditable || (disEdittable && discontGasValue != 'Generic')">{{disLiquidData.name}}</span>
+                                    <input ng-show="!cpEditable && (!disEdittable || discontGasValue == 'Generic')" type="text" class="form-control" ng-model="disLiquidData.name">
+                                </div>
+                                <div class="col-sm-12" ng-show="disContinousPhaseErrorMsg.name && (disLiquidData.name == undefined || disLiquidData.name.length =='0')">
+                                    <span class="red_11">Please Fill Name</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--row two-->
+                        <div class="form-group h75">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Density</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="mtop" ng-show="(cpEditable || (disEdittable && discontGasValue != 'Generic')) && !disDensity999">{{disLiquidData.density.value}}</span>
+                                    <input ng-show="(!cpEditable && (!disEdittable || discontGasValue == 'Generic')) || disDensity999" type="number" allow-numbers-only class="form-control" ng-model="disLiquidData.density.value">
+                                </div>
+                                <div class="col-sm-5">
+                                    <span class="mtop" ng-show="cpEditable || (disEdittable && discontGasValue != 'Generic') ">{{disLiquidData.density.unit}}</span>
+                                    <select ng-show="!cpEditable && (!disEdittable || discontGasValue == 'Generic')" class="form-control" ng-options="option.value as option.display for option in densityUnitsOptions" ng-change="discontDensityUnitChange()" ng-model="disLiquidData.density.unit"></select>
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="red_11 col-sm-12" ng-show="disContinousPhaseErrorMsg.density.value && disLiquidData.density.value == undefined">Please Fill Density</span>
+                                    <span class="red_11 col-sm-12" ng-show="disLiquidData.density.value != undefined && disLiquidData.density.value <= 0">Invalid Input</span>
+                                    <!--<span class="red_11 col-sm-12" ng-show="(liquidData.density.unit != 'Units' && disLiquidData.density.unit != 'Units' && disLiquidData.density.unit !=  liquidData.density.unit ) || disContinousPhaseErrorMsg.sameDensityUnits ">Continuous Phase Density Unit should must be equal to Discontinuous Phase Density Unit</span>-->
+                                </div>
+                                <div class="col-sm-6 pull-right padleft0">
+                                    <span ng-show="disContinousPhaseErrorMsg.density.unit && !densityUnitFilled" class="red_11">Please Fill Density Unit</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--row third-->
+                        <div class="form-group h75">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>I.F.T.(Interfacial Tension)</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="mtop" ng-show="(cpEditable || (disEdittable && discontGasValue != 'Generic') ) && !disIFT999">{{disLiquidData.interfacialTension}}</span>
+                                    <input ng-show="(!cpEditable && (!disEdittable || discontGasValue == 'Generic') ) || disIFT999" type="number" allow-numbers-only class="form-control" ng-model="disLiquidData.interfacialTension">
+                                </div>
+                                <div class="col-sm-5 padTop6">
+                                    dyn/cm
+                                </div>
+                                <div class="col-sm-12" ng-show="disContinousPhaseErrorMsg.ift  && disLiquidData.interfacialTension == undefined">
+                                    <span class="red_11">Please Fill I.F.T.</span>
+                                </div>
+                                <div class="col-sm-12" ng-show="disLiquidData.interfacialTension != undefined && disLiquidData.interfacialTension <= 0">
+                                    <span class="red_11">Invalid Input</span>
+                                </div>
+                                <div class="col-sm-12" ng-show="disLiquidData.interfacialTension != undefined && disLiquidData.interfacialTension < 3 && disLiquidData.interfacialTension > 0">
+                                    <span class="red_11">Horizontal configuration is STRONGLY recommended for IFT less than 3 dyne/cm</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--row Fourth-->
+                        <div class="form-group h75">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Concentration</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="mtop" ng-show="cpEditable && (disEdittable && discontGasValue != 'Generic')">{{disLiquidData.concentration.value}}</span>
+                                    <input ng-show="!cpEditable || (!disEdittable || discontGasValue == 'Generic')" type="number" allow-numbers-only class="form-control" ng-model="disLiquidData.concentration.value">
+                                </div>
+                                <div class="col-sm-5">
+                                    <span class="mtop" ng-show="cpEditable && (disEdittable && discontGasValue != 'Generic')">{{disLiquidData.concentration.unit}}</span>
+                                    <select ng-show="!cpEditable || (!disEdittable || discontGasValue == 'Generic')" class="form-control" ng-options="option.value as option.display for option in concentrationUnitsOptions" ng-model="disLiquidData.concentration.unit" ng-change="discontConcentrationUnitChange()"></select>
+
+                                </div>
+                                <div class="col-sm-12" ng-show="( disLiquidData.concentration.unit && disLiquidData.concentration.unit == 'ppm' && disLiquidData.concentration.value > 30000  && disLiquidData.concentration.value <= 50000 ) || ( disLiquidData.concentration.unit && disLiquidData.concentration.unit == 'percentage' && disLiquidData.concentration.value > 3 && disLiquidData.concentration.value <= 5 )  ">
+                                    <div class="red_11">SLS pilot testing is recommended</div>
+                                </div>
+                                <div class="col-sm-12" ng-show="( disLiquidData.concentration.unit && disLiquidData.concentration.unit == 'ppm' &&   disLiquidData.concentration.value > 50000 ) || ( disLiquidData.concentration.unit && disLiquidData.concentration.unit == 'percentage' &&   disLiquidData.concentration.value > 5 )  ">
+                                    <div class="red_11">SLS pilot testing is required</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="red_11" ng-show="disContinousPhaseErrorMsg.concentration.value && disLiquidData.concentration.value == undefined">Please Fill Concentration</span>
+                                    <span class="red_11" ng-show="disLiquidData.concentration.value != undefined && disLiquidData.concentration.value <= 0">Invalid Input</span>
+                                </div>
+                                <div class="col-sm-6 padleft0">
+                                    <span class="red_11" ng-show="disContinousPhaseErrorMsg.concentration.unit && !concentrationUnitFilled">Please Fill Concentration Unit</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="llCase" class="largeCheckBox form-group row bg_clr" id="idSLSTData" ng-model="sslUnits">
+                            <p style="margin:0px;">
+                                <div class="checkbox label-chekbx">
+                                    <label>
+                                        <input type="checkbox" ng-model="slsCheck">Scale up from SLS Test Data</label>
+                                </div>
+                            </p>
+                            <div class="panel-body tp_mrg_0" ng-show="slsCheck" style="padding:0px;">
+                                <div class="form-group row">
+                                    <div class="col-sm-4 pad5">
+                                        <p class="p_padd0">
+                                            <label style="padding:0px; margin:0px; font-size:11px;">Product List</label>
+                                        </p>
+                                        <p class="p_padd0">
+                                            <select class="form-control" ng-class="{'danger' :showDangerProduct}" ng-disabled="!slsCheck" ng-options="option.value as option.display for option in slsProductOptions" ng-model="slsProduct"></select>
+
+
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-4 pad5">
+                                        <p class="p_padd0">
+                                            <label style="padding:0px;margin:0px; font-size:11px;">Tested Flowrate</label>
+                                        </p>
+                                        <p class="p_padd0">
+                                            <input type="number" allow-numbers-only ng-class="{'danger' :showDangerTestedFlowRate}" ng-disabled="!slsCheck" class="form-control testedFlowrate" name="testedFlowrate" ng-model="testedFlowrate">
+                                            <!--<input type="number" class="form-control" placeholder="Input text " name="flowRate" ng-model="flowRate" ng-required="true">-->
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-4 pad5">
+                                        <p class="p_padd0">
+                                            <label style="padding:0px;margin:0px; font-size:11px;">Unit</label>
+                                        </p>
+                                        <p class="p_padd0">
+                                            <select class="form-control" ng-class="{'danger' :showDangerTestUnit}" ng-disabled="!slsCheck" ng-options="option.value as option.display for option in slsTestUnitOptions" ng-model="slsTestUnit"></select>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div ng-show="lgCase" class="form-group sepBg largeCheckBox">
+                            <div class="checkbox label-chekbx">
+                                <label>
+                                    <input type="checkbox" ng-model="presapration" />Preseparation
+                                </label>
+                            </div>
+                        </div>
+
+                        <div ng-show="presapration" class="panel-body tp_mrg_0 bg_lgt_grey" id="idProj" style="padding:0px;">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-4 text-center text14">Projected %</div>
+                                    <div class="col-sm-2 no-gutter" style="margin-top:7px;">
+                                        <!--<span class="mtop" ng-show="cpEditable || (disEdittable && discontGasValue != 'Generic')">{{projected}}</span>-->
+                                        <!--ng-show="!cpEditable && (!disEdittable || discontGasValue == 'Generic')"-->
+                                        <input ng-class="{'danger':showDanger}" type="number" allow-numbers-only class="form-control" id="Text18" placeholder="" ng-model="projected" style="margin-top: -1px;">
+                                    </div>
+                                    <div class="col-sm-6 text-center text14">
+                                        Liquid Load Reduction
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body h65">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-6 text-left">
+                                    <span class="btn btn-primary" ng-disabled="disableBackButton" ng-click="showBackContinousPhase()">Back</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div id="exceptionModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="border-bottom:1px solid #e5e5e5;">
+                    <button type="button" class="close" ng-click="closeException()" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">{{exceptionMsg}}</h4>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="container-fluid footer-bg">
+
+    <footer class="container wfooter">
+        <div class="row">
+            <div class="col-sm-4 col-md-6">
+                <h4>Worksheet</h4>
+            </div>
+            <div class="col-sm-8 col-md-6 text-right">
+
+                <input type="text" class="form-control configText" ng-show="showSaveBox" ng-model="configurationName" ng-class="{'danger' :configurationNameError}" placeholder="Type Configuration Name">
+                <span class="btn btn-primary" ng-show="showFooterButtons" ng-click="saveConfiguration()">Save Configuration</span>
+                <span ng-click="validateAll()" ng-show="showFooterButtons" ng-disabled="!disEdittable" class="btn green_btn" id="btn_gren">Calculate</span>
+
+            </div>
+
+        </div>
+    </footer>
+</div>
+
+<script>
+    function scroll_me(id){
+     id = id.replace("link", "");
+     // Scroll
+     $('html,body').animate({
+     scrollTop: $("#"+id).offset().top},
+     'slow');
+     }
+     $( document ).ready(function() {
+     scroll_me('idCol1NOCoal');
+     });
+</script>

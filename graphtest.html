@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>:: PALL - Graph Test ::</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="js/highcharts-ng.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <script type="text/javascript">
+        angular.module('app', ['highcharts-ng']);
+        angular.module('app').controller('graph', function($scope) {
+                    $scope.highchartsNG = {
+                        options: {
+                            plotOptions: {
+                                series: {
+                                    dataLabels: {
+                                        padding: -10,
+                                        formatter: function() {
+                                            if (this.y == this.point.low) {}
+                                            return this.y;
+                                        },
+                                        enabled: true
+                                    },
+                                    grouping: false,
+                                    borderWidth: 0,
+                                    pointWidth: 5
+                                }
+                            },
+                            title: {
+                                text: ""
+                            },
+                            subtitle: {
+                                enabled: false
+                            },
+                            credits: {
+                                enabled: false
+                            },
+                            exporting: {
+                                enabled: false
+                            },
+                            legend: {
+                                enabled: false
+                            },
+                            tooltip: {
+                                enabled: false
+                            }
+                        },
+                        xAxis: {
+                            labels: {
+                                enabled: false
+                            },
+                            visible: false,
+                            categories: [1, 2]
+                        },
+                        yAxis: {
+                            title: {
+                                enabled: false
+                            }, // tickPositions: [30, 50, 75], plotBands: [{ color: '#D0CEC2', from: 30, to: 40 }, { color: '#99CC99', from: 40, to: 60 }, { color: '#C8B8D5', from: 60, to: 75 }] }, series: [{ type: 'columnrange', name: 'Temperatures', datalabels: { enabled: false }, data: [{ x: 0, low: 35, high: 50, dataLabels: { x: -20, y: 0 } }, { x: 1, low: 32, high: 45, dataLabels: { x: -20, y: 0 } }] }, { name: 'Temperatures', datalabels: { enabled: false }, type: 'columnrange', data: [{ x: 0, low: 50, high: 68, dataLabels: { x: 20, y: 0 } }, { x: 1, low: 45, high: 60, dataLabels: { x: 20, y: 0 } } ] }, { type: 'spline', dataLabels: { enabled: true }, name: 'Average', data: [55, 45], lineWidth: 0, states: { hover: { enabled: false } }, marker: { radius: 10, lineWidth: 1, lineColor: Highcharts.getOptions().colors[3], fillColor: 'white' } } ] }
+                        });
+
+    </script>
+</head>
+
+<body ng-app="app" ng-controller="graph">
+    <highchart id="container " config="highchartsNG " style="min-width: 310px; height: 240px; margin: 0 auto "></highchart>
+
+</body>
+
+</html>
+
+

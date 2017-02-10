@@ -1,0 +1,45 @@
+{
+    "liquidelement": [
+        {
+            "cpname": "Amine",
+            "rhoC": 1020.3761,
+            "density": 90,
+            "viscosity": 35.4,
+            "unitD": "kg/m3",
+            "unitV": "CP"
+    },
+        {
+            "cpname": "Condensate",
+            "rhoC": 1020.3761,
+            "density": 90,
+            "viscosity": 35.4,
+            "unitD": "kg/m3",
+            "unitV": "CP"
+    },
+        {
+            "cpname": "Water",
+            "rhoC": 1020.3761,
+            "density": 90,
+            "viscosity": 35.4,
+            "unitD": "kg/m3",
+            "unitV": "CP"
+    },
+        {
+            "cpname": "Glycol",
+            "rhoC": 1020.3761,
+            "density": 90,
+            "viscosity": 35.4,
+            "unitD": "kg/m3",
+            "unitV": "CP"
+    },
+        {
+            "cpname": "Cpname",
+            "rhoC": 1020.3761,
+            "density": 90,
+            "viscosity": 35.4,
+            "unitD": "kg/m3",
+            "unitV": "CP"
+
+    }
+  ]
+}

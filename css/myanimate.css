@@ -1,0 +1,12 @@
+[ui-view].ng-enter {
+  -webkit-animation: slideInUp 1s;
+  -moz-animation: slideInUp 1s;
+  -ms-animation: slideInUp 1s;
+  animation: slideInUp 1s;
+}
+[ui-view].ng-leave {
+  -webkit-animation: slideInUp 1s;
+  -moz-animation: slideInUp 1s;
+  -ms-animation: slideInUp 1s;
+  animation: slideInUp 1s;
+}

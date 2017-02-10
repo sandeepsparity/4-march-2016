@@ -1,0 +1,1252 @@
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: url("http://www.pall.com/images/main/bg-top-nav.gif") repeat-x scroll center top transparent;
+    color: #444444;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+div#wrapper {
+    clear: both;
+    margin: 0 auto 370px;
+    min-height: 100%;
+    padding: 0;
+    width: 980px;
+}
+
+div#header {
+    border-left: 1px solid #444447;
+    border-radius: 0 0 7px 7px;
+    border-right: 1px solid #444447;
+    height: 105px;
+    margin: 1px 0 0;
+    position: relative;
+    z-index: 0;
+}
+
+#logo {
+    height: 53px;
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 310px;
+}
+
+.header-slogan {
+    height: 23px;
+    margin-left: 130px;
+    margin-top: -5px;
+    width: 211px;
+}
+
+.test-bg {
+    background: url("http://www.pall.com/images/main/banner-img.jpg") no-repeat scroll right bottom #FFFFFF;
+    position: relative;
+    z-index: 2;
+}
+
+div#footer-note {
+    background: url("http://www.pall.com/images/main/bg-footernote.gif") repeat-x scroll 0 0 #000000;
+    width: 100%;
+    height: 50px;
+}
+
+div#footer-note p {
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 16px 0 0;
+    text-align: center;
+}
+
+div#footer {
+    background: url("http://www.pall.com/images/main/bg-footer.jpg") repeat-x scroll 0 0 #444444;
+    clear: both;
+    height: 385px;
+    position: relative;
+    width: 100%;
+    z-index: 0;
+}
+
+div#footer-wrapper {
+    margin: 5px auto 0;
+    width: 980px;
+    height: 280px;
+}
+
+.footer-content {
+    float: left;
+    width: 20%;
+    margin-bottom: 25px;
+}
+
+.footer-content h2 {
+    margin: 0;
+    padding: 3px 0;
+}
+
+.footer-content h2,
+.footer-content a {
+    border-bottom: 0 solid;
+    color: #A6A6A6;
+    font-weight: normal;
+    margin: 0 0 3px;
+    text-decoration: none;
+    text-shadow: 1px 1px 1px #2A2927;
+}
+
+.footer-content a:hover {
+    color: #C77405;
+}
+
+.footer-content ul,
+.footer-content li {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+#footer-copy {
+    height: 50px;
+    width: 100%;
+    background: #444444;
+    color: #A6A6A6;
+    padding: 20px 0 0;
+    text-align: center;
+}
+
+#footer-copy a:hover {
+    color: #C77405;
+}
+
+#footer-copy a {
+    color: #A6A6A6;
+    text-decoration: none;
+}
+
+div#topnav,
+#topnav ul {
+    height: 38px;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+#topnav ul li {
+    float: left;
+    list-style: none outside none;
+}
+
+#quicknav {
+    width: 50%;
+    float: left;
+    margin: 10px 0 0 0;
+    color: #6b6b6b;
+    font-size: 11px;
+    text-shadow: 1px 1px 1px #ffffff;
+}
+
+#quicknav a {
+    color: #444446;
+    text-decoration: none;
+    font-size: 11px;
+}
+
+#quicknav li {
+    margin: 12px 0 0 0;
+    height: 20px;
+    *height: 10px;
+    padding: 3px 10px 0 10px !important;
+    *padding: 3px 10px 10px 10px !important;
+    background: url(http://www.pall.com/images/main/bg-topnav-item.gif) no-repeat right 40%;
+}
+
+.headerIconLast {
+    background: none !important;
+}
+
+.my-cart {
+    width: auto;
+    background: none !important;
+}
+
+#spanCart {
+    width: auto;
+    padding: 2px 0px 4px 28px;
+    *padding: 11px 0px 10px 32px;
+    background: url(http://www.pall.com/images/main/my-cart.jpg) no-repeat center left !important;
+}
+
+#spanItems {
+    width: auto;
+    margin-left: 5px;
+    padding: 2px 6px 2px 6px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #3B8FE5;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    text-shadow: none;
+}
+
+#myCartItem .cartItem li {
+    height: auto;
+}
+
+#myCartItem .cartItem {
+    top: 30px;
+    margin: 2px 0 0 -10px !important;
+    *margin: 2px 0 0 -110px !important;
+}
+
+#tblCart {
+    padding-bottom: 5px;
+    width: 360px;
+    border-collapse: collapse;
+}
+
+#tblCart tbody tr th {
+    background-color: #e4e4e6;
+    font-weight: bold;
+    font-size: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #999;
+    text-align: left;
+}
+
+#tblCart tbody tr {
+    background: #fff;
+}
+
+#tblCart tbody tr td {
+    padding: 7px 5px 7px 5px;
+    vertical-align: top;
+}
+
+#tblCart tbody tr td a {
+    cursor: pointer;
+}
+
+#tblCart tbody .lastRow {
+    text-align: center;
+    background-color: transparent;
+}
+
+#tblCart tbody tr:last-child td {
+    padding: 8px 0px 2px 0px;
+}
+
+#topnav #quicknav .topnav-lang ul .lang {
+    width: auto;
+}
+
+#chout .blue-btn {
+    color: #fff;
+    margin-left: 130px;
+    *margin-left: 10px;
+    margin-bottom: 8px;
+}
+
+#chout .blue-btn:hover {
+    color: #f2f2f2;
+}
+
+#quicknav li ul {
+    margin: 2px 0 0 -14px !important;
+    *margin: 15px 0 0 -70px !important;
+    padding: 10px 0 0 0 !important;
+}
+
+#quicknav li ul li {
+    padding: 3px 10px 0 10px !important;
+    background-image: none !important;
+    *height: 20px;
+}
+
+#quicknav li ul li:last-child {
+    padding: 3px 10px 0 10px !important;
+    background-image: none !important;
+}
+
+#topnav-social {
+    float: right;
+}
+
+#topnav-social li {
+    height: 25px;
+    padding: 8px 10px 0 !important;
+    width: 25px;
+}
+
+#topnav ul li ul {
+    display: none;
+}
+
+#topnav ul li:hover ul {
+    background: none repeat scroll 0 0 #E4E4E6;
+    border-radius: 0 0 7px 7px;
+    box-shadow: 0 2px 2px -1px #888888;
+    display: block;
+    height: auto;
+    margin: 0;
+    padding: 0 5px;
+    position: absolute;
+    width: auto;
+    z-index: 5001;
+}
+
+#topnav li:hover ul li {
+    float: none;
+    margin: 0;
+    padding: 5px;
+    text-shadow: 1px 1px 1px #FFFFFF;
+}
+
+#topnav li:hover ul li a {
+    padding: 5px;
+}
+
+#topnav a:hover {
+    color: #3182DE;
+}
+
+div#pall-logo {
+    float: left;
+    width: 430px;
+}
+
+div#block-search-form {
+    float: right;
+    width: 425px;
+    height: 28px;
+    margin-top: 30px;
+    margin-right: 60px;
+    position: relative;
+}
+
+#modSearch {
+    height: 28px;
+    width: auto;
+    position: relative;
+    float: right;
+}
+
+#options {
+    float: left;
+    position: realtive;
+    width: auto;
+}
+
+#block-search-form .select {
+    width: auto;
+    padding: 7px 20px 5px 5px;
+    height: 16px;
+    *height: 15px;
+    /*IE 7*/
+    float: left;
+    color: black;
+    background: url(//www.pall.com/images/main/arrow-select.jpg) no-repeat right #f4f4f6;
+    -webkit-box-shadow: -1px 0px 2px rgba(50, 50, 50, 0.46);
+    -moz-box-shadow: -1px 0px 2px rgba(50, 50, 50, 0.46);
+    box-shadow: -1px 0px 2px rgba(50, 50, 50, 0.46);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 0;
+    border-right: #ccc 1px solid;
+}
+
+select.styled {
+    opacity: 0;
+    width: 30px;
+}
+
+#optDrop {
+    float: left !important;
+    position: absolute;
+    top: 8px;
+    width: auto;
+    left: 0;
+    *top: 6px;
+    top: 10px\0/IE8+9;
+    visibility: visible;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    #optDrop {
+        top: 6px;
+    }
+}
+
+.text-search {
+    float: left;
+    width: 250px;
+    padding: 3px;
+    height: 15px;
+    position: relative;
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid #fff;
+    border-left: none;
+    border-right: none;
+    z-index: 10;
+}
+
+.searchbtn input {
+    background: url(http://www.pall.com/images/main/btn-search.png) no-repeat right;
+    text-indent: -9999px;
+    border: none;
+    width: 32px;
+    height: 32px;
+    top: -2px;
+    cursor: pointer;
+    float: left;
+    position: relative;
+    left: 425px;
+}
+
+#menu {
+    background: url("http://www.pall.com/images/main/bg-main-nav.gif") repeat-x scroll 0 0 transparent;
+    border: 1px solid #002232;
+    border-radius: 0 0 7px 7px;
+    box-shadow: 0 0 1px #EDF9FF inset;
+    clear: both;
+    height: 32px;
+    list-style: none outside none;
+    margin: 0 auto;
+    padding: 0 0 0 60px;
+    position: relative;
+    top: -5px;
+    /* width: 918px; */
+    z-index: 5000;
+}
+
+#menu li {
+    border: medium none;
+    display: block;
+    float: left;
+    margin: 0 0 0 0;
+    padding: 8px 23px;
+    text-align: center;
+}
+
+#menu li:hover {
+    border-radius: 5px 5px 0 0;
+    padding: 8px 23px;
+}
+
+#menu .dwn a:hover {
+    cursor: pointer;
+}
+
+#menu li a {
+    color: #FFFFFF;
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    outline: 0 none;
+    text-decoration: none;
+    text-shadow: 1px 1px 1px #000000;
+}
+
+#menu li a:hover {
+    text-shadow: 1px 1px 1px #666666;
+}
+
+.reglnk:hover {
+    border-bottom: 3px solid #F2F2F2;
+    margin-bottom: -4px;
+    padding-bottom: 1px;
+}
+
+#menu li ul {
+    float: left;
+    list-style: none outside none;
+    margin: 0 3px 0 2px;
+    padding: 0;
+    width: 230px;
+}
+
+#menu .dwn #markets #csstabs ul {
+    margin-left: 10px;
+    padding-right: 15px;
+    width: 30%;
+}
+
+#menu li ul li {
+    float: none;
+    margin: 0 0 2px;
+    padding: 0;
+    position: relative;
+    text-align: left;
+}
+
+#menu li ul li h3 {
+    margin: 10px 0 0 0px !important;
+    padding: 0 !important;
+}
+
+#markets div ul li h3 a {
+    margin-left: -7px;
+    *margin-left: 0px;
+}
+
+#menu li ul li h3 a {
+    font-size: 13px !important;
+}
+
+#menu li ul li a {
+    color: #0047BD !important;
+    font-size: 12px;
+    text-shadow: none !important;
+}
+
+#markets ul li div a {
+    text-indent: -7px;
+    *text-indent: 0px;
+}
+
+#menu li ul li a:hover {
+    color: #525252 !important;
+}
+
+#menu li .drop {
+    background: url("http://www.pall.com/images/main/main-nav-arrow.gif") no-repeat scroll right 8px transparent;
+    padding-right: 15px;
+}
+
+#menu form {
+    float: right;
+}
+
+.list-border-left {
+    border-left: 1px solid #D5D5D7;
+    padding: 0 0 0 10px !important;
+}
+
+.tabs {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-color: #0047BD;
+    border-radius: 7px 7px 7px 7px;
+    border-style: solid;
+    border-width: 0 1px 5px;
+    float: left;
+    left: -999em;
+    margin: 7px auto;
+    position: absolute;
+    text-align: left;
+    top: -5px;
+    z-index: 100;
+}
+
+.supporttabs {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-color: #0047BD;
+    border-radius: 7px 7px 7px 7px;
+    border-style: solid;
+    border-width: 0 1px 5px;
+    float: left;
+    left: -1px;
+    margin: 7px auto;
+    position: absolute;
+    text-align: left;
+    top: auto;
+    z-index: 100;
+}
+
+#menu li .active {
+    left: -1px;
+    top: auto;
+}
+
+
+/*
+#menu li a.active {
+    background: url("//www.pall.com/images/main/drop.png") no-repeat scroll right 7px transparent;
+}
+*/
+
+#menu li.active {
+    background: url("http://www.pall.com/images/main/hoverArrw.png") no-repeat scroll 45% bottom transparent;
+}
+
+
+/*
+#menu li:hover .drop {
+    background: url("//www.pall.com/images/main/drop.png") no-repeat scroll right 7px transparent;
+}
+*/
+
+#markets {
+    padding: 5px 0 10px 0px;
+    width: 980px;
+    *width: 978px;
+    width: 980px\0/IE8+9;
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+}
+
+#services {
+    width: 970px;
+    *width: 968px;
+    width: 970px\0/IE8+9;
+    padding: 0px 0px 0px 10px;
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+}
+
+#support {
+    padding: 10px;
+    width: 960px;
+    min-height: 258px;
+    *width: 958px;
+    width: 960px\0/IE8+9;
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+}
+
+#products {
+    padding: 0;
+    width: 980px;
+    *width: 978px;
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+}
+
+#markets {
+    height: auto;
+}
+
+#menu h2,
+#menu p {
+    position: absolute;
+    z-index: 5;
+}
+
+#menu h2 {
+    color: #0047BD;
+    font-weight: normal;
+    margin: 10px;
+}
+
+#menu p {
+    margin: 10px;
+    top: 30px;
+}
+
+#prod-0 p,
+#prod-1 p {
+    color: #FFFFFF;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: bold;
+}
+
+#prod-4 span p {
+    top: 135px;
+    width: 300px;
+}
+
+#menu li ul li a.btn-left-menu {
+    bottom: 20px;
+    clear: both;
+    color: #FFFFFF !important;
+    left: 15px;
+    position: absolute;
+    z-index: 20;
+}
+
+.img_left {
+    float: left;
+    margin: 5px 15px 5px 5px;
+    width: auto;
+}
+
+#menu li ul li:hover {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    margin: 0 0 2px;
+    padding: 0;
+}
+
+#csstabs {
+    clear: both;
+    margin: 0;
+    min-height: 320px;
+    position: relative;
+    width: 980px;
+}
+
+#products,
+#services,
+#markets,
+#support {
+    box-shadow: 0 9px 10px 0 #001123;
+}
+
+#markets #csstabs {
+    margin-left: 40px;
+    width: 940px;
+}
+
+#menu-tabs,
+#menu-tabs-market {
+    bottom: 0;
+    left: -2px;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+#menu-tabs-image {
+    bottom: 30px;
+    left: -121px;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+}
+
+#menu-tabs-image {
+    bottom: 32px;
+}
+
+#menu-tabs li,
+#menu-tabs-market li {
+    float: left;
+    margin: 0 1px 0 0 !important;
+    padding: 0 !important;
+}
+
+#menu-tabs a {
+    border-left: 1px solid #0047bd\9;
+    /*IE8 and Below*/
+}
+
+#menu-tabs a,
+#menu-tabs-market a {
+    background: url("http://www.pall.com/images/main/bg-tab-menu-current.png") repeat scroll 0 0 transparent;
+    bottom: 0 !important;
+    color: #FFFFFF;
+    font-size: 13px !important;
+    height: 16px;
+    margin: 0 !important;
+    padding: 10px;
+    position: relative;
+    width: 220px;
+}
+
+#menu-tabs a:hover,
+#menu-tabs a:focus,
+#menu-tabs-market a:hover,
+#menu-tabs-market a:focus {
+    background: url("http://www.pall.com/images/main/bg-tab-menu-current.png") repeat scroll 0 0 transparent;
+    border-bottom: medium none;
+    color: #0047BD !important;
+}
+
+#menu-tabs a:focus,
+#menu-tabs-market a:focus {
+    outline: 0 none;
+}
+
+#menu-tabs #current a,
+#menu-tabs-market #current a {
+    background: url("http://www.pall.com/images/main/bg-tabs-menu_light.png") repeat scroll 0 0 transparent;
+    border-bottom: medium none;
+    color: #FFFFFF !important;
+    z-index: 1;
+}
+
+#menu-content {
+    border: medium none;
+    height: auto;
+    left: 0;
+    margin-left: 240px;
+    padding: 0 10px;
+    position: absolute;
+    top: 0;
+    width: auto;
+    z-index: 3;
+}
+
+#menu-content-market {
+    border: medium none;
+    height: 340px;
+    left: 0;
+    margin-left: 260px;
+    padding: 0 10px;
+    position: absolute;
+    top: 0;
+    width: 950px;
+    z-index: 3;
+}
+
+#menu-content ul li,
+#menu-content-market ul li {
+    float: none !important;
+}
+
+#menu-form {
+    float: right !important;
+    width: 250px;
+    *width: 240px;
+    /*IE7*/
+    width: 25%\0/IE8+9;
+    /*IE8 & IE9*/
+    height: 235px;
+}
+
+.spacer {
+    height: 100px;
+    width: 240px;
+}
+
+#menu-form label {
+    text-align: left;
+    width: 60px;
+    float: left;
+    font-size: 11px;
+    clear: left;
+    margin-top: 5px;
+}
+
+#menu-form input,
+#menu-form textarea,
+#menu-form select {
+    clear: right;
+    font-size: 11px;
+    padding: 2px;
+    top: -20px;
+    border: solid 1px #bdd6ef;
+    width: 170px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow: 0px 1px 2px -1px #888;
+    -webkit-box-shadow: 0px 1px 2px -1px #888;
+    box-shadow: 0px 1px 2px -1px #888;
+}
+
+#menu-form select {
+    width: 175px;
+}
+
+#menu-form input,
+#menu-form select {
+    margin: 2px 0px;
+}
+
+#menu-form textarea {
+    margin: 2px 0 10px 0;
+}
+
+#menu-form input:hover,
+#menu-form input:focus,
+#menu-form textarea:hover,
+#menu-form textarea:focus {
+    border: 1px solid #3a8de5;
+    background: #ecf2fb;
+}
+
+#menu-form button {
+    clear: both;
+    padding: 2px 10px;
+    text-align: center;
+    display: block;
+    margin: 0px 0 0 60px;
+    background: url('http://www.pall.com/images/main/bg-blue-btn.png') repeat-x;
+    border: none;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #f1f1f1;
+    font-size: 11px;
+    text-shadow: 1px 1px 1px #4a4a4a;
+    cursor: pointer;
+}
+
+#menu-form button:hover {
+    color: #d0dff5;
+}
+
+#message {
+    max-width: 170px;
+    min-height: 30px;
+}
+
+div#hheader,
+div#htopnav,
+div#hcontent {
+    clear: both;
+    margin: 0 auto;
+    padding: 0;
+    width: 980px;
+}
+
+.btn-right-top {
+    top: 6px;
+}
+
+div#content-left {
+    margin: 0;
+}
+
+.text-search {
+    padding: 5.5px;
+}
+
+#ls-row-2-col-2 {
+    border-left: 1px solid #D6D6D6;
+    min-height: 35em;
+    width: 588px;
+}
+
+#ls-gen3-ls-fxr {
+    margin: 0 auto;
+    width: 780px
+}
+
+.ls-canvas .ls-col {
+    overflow: visible;
+}
+
+.ls-canvas .ls-col-body {
+    overflow: visible;
+}
+
+.ls-canvas .ls-area {
+    overflow: visible;
+}
+
+.ls-canvas .ls-area-body {
+    overflow: visible;
+}
+
+#menu h2 {
+    border-bottom: 0 solid;
+}
+
+.blue-btn,
+#products #csstabs #menu-content ul li .blue-btn.btn-left-menu:hover {
+    background: url("http://www.pall.com/images/main/bg-blue-btn.png") repeat-x scroll 0 0 transparent;
+    border-radius: 4px 4px 4px 4px;
+    color: #F1F1F1;
+    display: block;
+    font-size: 11px;
+    padding: 4px 0;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 1px 1px 1px #4A4A4A;
+    text-transform: uppercase;
+    width: 85px;
+}
+
+.blue-btn:hover {
+    color: #CCCCCC;
+}
+
+.btn-left {
+    bottom: 5px;
+    clear: both;
+    position: relative;
+    z-index: 2000;
+}
+
+#menu li #products #csstabs #menu-content #prod-3 ul.alpha_links {
+    width: auto;
+}
+
+.item_link_alphaTwo {
+    float: left;
+    margin-right: 5px;
+}
+
+#menu li #products #csstabs #menu-content #prod-3 ul.alpha_links {
+    width: auto;
+}
+
+#menu li ul li a.item_link_alphaTwo {
+    font-size: 20px;
+}
+
+.ser_drpdwn {
+    float: left;
+    width: 650px;
+    *margin-top: 10px;
+    margin-left: 35px;
+    margin-top: 25px;
+}
+
+#menu li .ser_drpdwn p {
+    padding: 0 0 10px;
+    margin: 0 0 0 0;
+    position: relative;
+    top: 0px;
+}
+
+#menu li .ser_drpdwn .blue-btn {
+    float: right;
+    width: 100px;
+    margin-top: 10px;
+}
+
+.ser_img {
+    float: right;
+    width: auto;
+    height: 222px;
+}
+
+#column4 {
+    left: 20px;
+    position: relative;
+}
+
+.docs {
+    left: 15px;
+    position: relative;
+}
+
+.h2-B {
+    font-size: 18px;
+}
+
+.footer-content-P {
+    border-right: 1px dotted #585858;
+    color: #A6A6A6;
+    float: left;
+    margin: 25px 20px 10px 55px;
+    padding: 5px 15px 0 0;
+    width: 25%;
+}
+
+#prod-4 .alpha_links {
+    left: 5px;
+    position: relative;
+    width: 340px;
+}
+
+#support #SupportPart1 ul li,
+#support #SupportPart2 ul li {
+    margin-bottom: 5px;
+}
+
+.topnav-lang a img,
+.topnav-lang ul li a img {
+    margin-bottom: -1px;
+}
+
+#menu-content #prod-0 ul li,
+#menu-content #prod-1 ul li {
+    padding-bottom: 2px;
+}
+
+#menu-content #prod-2 ul li {
+    padding-bottom: 3px;
+}
+
+#menu-content ul li .blue-btn.btn-left-menu {
+    font-size: 11px;
+}
+
+#prod-al {
+    background: url("http://www.pall.com/images/main/prod4_img.png") no-repeat scroll right bottom transparent;
+    height: 310px;
+    padding-bottom: 10px;
+    width: 766px;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+#loadingImage {
+    padding-top: 10px;
+    text-align: center;
+}
+
+#loadingImage img {
+    height: 40px;
+    width: 40px;
+}
+
+#prod-al span p {
+    top: 16px;
+    width: 300px;
+}
+
+#prod-al .alpha_links {
+    left: 5px;
+    padding-top: 10px;
+    position: relative;
+    width: 340px;
+}
+
+#prod-0,
+#prod-1,
+#prod-2 {
+    margin-top: 10px;
+}
+
+#footer-txt {
+    color: #A6A6A6;
+}
+
+#indDiv {
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    margin-bottom: 1px;
+    *margin-bottom: -8px;
+}
+
+#indDiv div {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: auto;
+    margin-bottom: 8px;
+    position: relative;
+    top: 4px;
+    *top: -1px;
+}
+
+.ser_img > img {
+    border-radius: 0 7px 4px 0;
+}
+
+#markets ul li div a:before {
+    content: "- ";
+    *content: "";
+}
+
+.imageborder {
+    position: relative;
+    z-index: 1;
+    top: -10px;
+    left: -25px;
+}
+
+#support #SupportPart2 ul {
+    padding-right: 40px;
+    width: 190px;
+}
+
+#golCon {
+    border-top: 1px solid #D5D5D7;
+    padding-top: 6px;
+}
+
+#sprImg {
+    bottom: 11px;
+    /*bottom: 0px\0/IE8+9;*/
+    position: absolute;
+    right: 270px;
+}
+
+tr.row2 {
+    background-color: #E5E5E5;
+}
+
+#row5 {
+    margin: 0px
+}
+
+.ls-canvas .ls-cmp-wrap {
+    padding: 0px
+}
+
+#downloadPDFLanguages {
+    background: none repeat scroll 0 0 #dbdbdb;
+    *margin-top: 20px !important;
+    margin-left: -12px !important;
+    *margin-left: -130px !important;
+    padding-left: 0 !important;
+    padding-top: 5px !important;
+    *padding-bottom: 5px;
+    width: 126px !important;
+    *width: 130px;
+    display: none;
+    height: auto;
+    position: absolute;
+    z-index: 5001;
+    box-shadow: 0 2px 2px -1px #888888;
+}
+
+#ds_variant_navbar {
+    margin-bottom: 0;
+}
+
+#ds_variant_navbar li {
+    float: left;
+    background-image: none !important;
+}
+
+#downloadPDFLanguages li a {
+    color: #000;
+}
+
+#ds_variant_navbar a {
+    padding: 0 20px 0 8px !important;
+}
+
+#ds_variant_navbar li ul li {
+    float: none !important;
+    padding: 0px;
+}
+
+#downloadPDF ul a {
+    border-right: none;
+    display: block;
+    padding: 2px 0px 2px 22px !important;
+}
+
+#downloadPDF ul a:hover {
+    background: #0455ae;
+    color: #fff;
+}
+
+.productIcon {
+    background-image: none !important;
+}
+
+
+/*Social Icon Styles*/
+
+#topnav-social li {
+    opacity: .5;
+}
+
+#topnav-social li:hover {
+    opacity: 1.0;
+}
+
+#bottomnav-social {
+    padding: 0px;
+}
+
+#bottomnav-social li {
+    list-style: none;
+    display: block;
+    float: left;
+    padding-right: 10px;
+    opacity: .5;
+}
+
+#bottomnav-social li:hover {
+    opacity: 1.0;
+}
+
+.orderHiddenColumn {
+    display: none;
+}
+
+#top_email,#top_name,#top_company,#top_phone{
+    height: 15px;
+}
